@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth_routes import router as auth_router
 from app.api.loan_routes import router as loan_router
 from app.api.document_routes import router as document_router
+from app.api.model_routes import router as model_router
 from contextlib import asynccontextmanager
 from app.database.connection import init_db
 from app.core.config import settings
@@ -20,9 +21,19 @@ app = FastAPI(
 )
 
 # Add CORS middleware
+# Support comma-separated CLIENT_URL values (e.g. "http://localhost:3000,http://localhost:3001")
+raw_origins = settings.CLIENT_URL or ""
+allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
+
+# Always include both development ports
+if not allowed_origins or any("localhost" in origin for origin in allowed_origins):
+    allowed_origins = list(set(allowed_origins + ["http://localhost:3000", "http://localhost:3001"]))
+
+print(f"DEBUG: CORS allowed origins: {allowed_origins}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.CLIENT_URL],  # Change this in production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,6 +43,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(loan_router)
 app.include_router(document_router)
+app.include_router(model_router)
 
 @app.get("/")
 async def root():

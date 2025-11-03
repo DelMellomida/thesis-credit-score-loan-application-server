@@ -489,24 +489,52 @@ async def update_loan_application(
                 detail=f"Loan application with ID {application_id} not found"
             )
 
-        # Update document files if provided
-        document_files = {}
-        if profilePhoto:
-            document_files["profile_photo"] = profilePhoto
-        if validId:
-            document_files["valid_id"] = validId
-        if brgyCert:
-            document_files["brgy_cert"] = brgyCert
-        if eSignaturePersonal:
-            document_files["e_signature_personal"] = eSignaturePersonal
-        if payslip:
-            document_files["payslip"] = payslip
-        if companyId:
-            document_files["company_id"] = companyId
-        if proofOfBilling:
-            document_files["proof_of_billing"] = proofOfBilling
-        if eSignatureCoMaker:
-            document_files["e_signature_comaker"] = eSignatureCoMaker
+        try:
+            # Clean and validate the update data
+            update_data = {}
+            
+            if 'applicant_info' in data_dict:
+                # Merge with existing data to maintain required fields
+                current_applicant = application.applicant_info.model_dump()
+                current_applicant.update(data_dict['applicant_info'])
+                update_data['applicant_info'] = current_applicant
+
+            if 'comaker_info' in data_dict:
+                current_comaker = application.comaker_info.model_dump()
+                current_comaker.update(data_dict['comaker_info'])
+                update_data['comaker_info'] = current_comaker
+
+            if 'model_input_data' in data_dict:
+                current_model_input = application.model_input_data.model_dump()
+                current_model_input.update(data_dict['model_input_data'])
+                update_data['model_input_data'] = current_model_input
+
+            # Handle document files if provided
+            document_files = {}
+            if profilePhoto:
+                document_files["profile_photo"] = profilePhoto
+            if validId:
+                document_files["valid_id"] = validId
+            if brgyCert:
+                document_files["brgy_cert"] = brgyCert
+            if eSignaturePersonal:
+                document_files["e_signature_personal"] = eSignaturePersonal
+            if payslip:
+                document_files["payslip"] = payslip
+            if companyId:
+                document_files["company_id"] = companyId
+            if proofOfBilling:
+                document_files["proof_of_billing"] = proofOfBilling
+            if eSignatureCoMaker:
+                document_files["e_signature_comaker"] = eSignatureCoMaker
+
+            logger.info(f"Processed update data: {update_data}")
+        except Exception as e:
+            logger.error(f"Error processing update data: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid update data structure: {str(e)}"
+            )
 
         # If there are document updates, process them
         if document_files:
@@ -519,16 +547,22 @@ async def update_loan_application(
 
             # Update document URLs in database
             from app.database.models.document_model import ApplicationDocument
-            await ApplicationDocument.find_one(
+            doc = await ApplicationDocument.find_one(
                 ApplicationDocument.application_id == str(application.application_id)
-            ).update({"$set": document_urls})
+            )
+            if doc:
+                await doc.update({"$set": document_urls})
 
-        # Update application data and run reassessment
-        updated_application = await service.update_loan_application(
-            application.application_id, 
-            data_dict,
-            rerun_assessment=True
-        )
+        # Update application data and run reassessment only if we have data updates
+        if update_data:
+            updated_application = await service.update_loan_application(
+                application.application_id, 
+                update_data,
+                rerun_assessment=True
+            )
+        else:
+            # If only files were updated, return the current application
+            updated_application = application
 
         if not updated_application:
             raise HTTPException(

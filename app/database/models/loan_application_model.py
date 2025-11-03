@@ -1,4 +1,5 @@
 from beanie import Document
+from beanie.odm.fields import PydanticObjectId
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
@@ -111,5 +112,14 @@ class LoanApplication(Document):
         arbitrary_types_allowed = True
         json_encoders = {
             datetime: lambda v: v.isoformat(),
-            UUID: str
+            UUID: str,
+            PydanticObjectId: str  # Add this encoder
+        }
+        json_schema_extra = {
+            "example": {
+                "application_id": "123e4567-e89b-12d3-a456-426614174000",
+                "timestamp": "2025-01-01T00:00:00",
+                "loan_officer_id": "5f7b5d8a9c1b2e3f4a5d6c7e",
+                "status": "Pending"
+            }
         }

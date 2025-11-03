@@ -10,7 +10,7 @@ services:
       - MONGODB_DB_NAME=${MONGODB_DB_NAME}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      - CLIENT_URL=${CLIENT_URL}
+      - CLIENT_URL=http://localhost:3000,http://localhost:3001
     image: credit_score_server:latest
     container_name: credit_score_server-container
     # Mounting logs directory 
