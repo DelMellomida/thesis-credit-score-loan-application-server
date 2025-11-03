@@ -4,7 +4,6 @@ from app.database.models import User, LoanApplication, ApplicationDocument
 from app.core import Settings  # Use your existing import
 import logging
 import certifi
-import ssl
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -31,11 +30,6 @@ async def init_db():
             logger.error("MONGODB_DB_NAME is not set in environment variables")
             raise ValueError("MONGODB_DB_NAME is not set in environment variables")
         
-        # Create SSL context for Render compatibility
-        ssl_context = ssl.create_default_context(cafile=certifi.where())
-        ssl_context.check_hostname = True
-        ssl_context.verify_mode = ssl.CERT_REQUIRED
-        
         # Create MongoDB client optimized for Render
         logger.info("Creating MongoDB client with Render-optimized TLS configuration...")
         client = motor.motor_asyncio.AsyncIOMotorClient(
@@ -44,8 +38,6 @@ async def init_db():
             connectTimeoutMS=10000,
             socketTimeoutMS=10000,
             tlsCAFile=certifi.where(),
-            ssl_cert_reqs=ssl.CERT_REQUIRED,
-            tlsAllowInvalidHostnames=False,
             retryWrites=True,
             w='majority',
             maxPoolSize=10,  # Limit connection pool for Render
