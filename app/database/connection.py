@@ -3,7 +3,6 @@ from beanie import init_beanie
 from app.database.models import User, LoanApplication, ApplicationDocument
 from app.core import Settings  # Use your existing import
 import logging
-import certifi
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -30,18 +29,17 @@ async def init_db():
             logger.error("MONGODB_DB_NAME is not set in environment variables")
             raise ValueError("MONGODB_DB_NAME is not set in environment variables")
         
-        # Create MongoDB client optimized for Render
-        logger.info("Creating MongoDB client with Render-optimized TLS configuration...")
+        # Create MongoDB client with SSL workaround for Render
+        logger.info("Creating MongoDB client with SSL workaround...")
         client = motor.motor_asyncio.AsyncIOMotorClient(
             mongodb_uri,
-            serverSelectionTimeoutMS=10000,  # Increased for Render's cold starts
-            connectTimeoutMS=10000,
-            socketTimeoutMS=10000,
-            tlsCAFile=certifi.where(),
+            tls=True,
+            tlsAllowInvalidCertificates=True,  # Workaround for Render SSL issues
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000,
             retryWrites=True,
-            w='majority',
-            maxPoolSize=10,  # Limit connection pool for Render
-            minPoolSize=1
+            w='majority'
         )
         
         # Test the connection
