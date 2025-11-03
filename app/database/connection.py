@@ -31,7 +31,13 @@ async def init_db():
         
         # Create MongoDB client
         logger.info("Creating MongoDB client...")
-        client = motor.motor_asyncio.AsyncIOMotorClient(mongodb_uri, serverSelectionTimeoutMS=5000)
+        logger.info("Creating MongoDB client...")
+        client = motor.motor_asyncio.AsyncIOMotorClient(
+            mongodb_uri,
+            serverSelectionTimeoutMS=5000,
+            tls=True,
+            tlsAllowInvalidCertificates=True  # Only for debugging; remove in production
+        )
         
         # Test the connection
         logger.info("Testing MongoDB connection...")
