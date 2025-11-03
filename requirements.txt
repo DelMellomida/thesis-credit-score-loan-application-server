@@ -55,6 +55,8 @@ aiofiles==25.1.0
 
 fairlearn==0.13.0
 
+certifi>=2023.7.22
+
 # Machine Learning
 # statsmodel==0.14.5
 # matplotlib==3.10.7

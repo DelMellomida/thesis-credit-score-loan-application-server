@@ -3,6 +3,8 @@ from beanie import init_beanie
 from app.database.models import User, LoanApplication, ApplicationDocument
 from app.core import Settings  # Use your existing import
 import logging
+import certifi
+import ssl
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -29,9 +31,26 @@ async def init_db():
             logger.error("MONGODB_DB_NAME is not set in environment variables")
             raise ValueError("MONGODB_DB_NAME is not set in environment variables")
         
-        # Create MongoDB client
-        logger.info("Creating MongoDB client...")
-        client = motor.motor_asyncio.AsyncIOMotorClient(mongodb_uri, serverSelectionTimeoutMS=5000)
+        # Create SSL context for Render compatibility
+        ssl_context = ssl.create_default_context(cafile=certifi.where())
+        ssl_context.check_hostname = True
+        ssl_context.verify_mode = ssl.CERT_REQUIRED
+        
+        # Create MongoDB client optimized for Render
+        logger.info("Creating MongoDB client with Render-optimized TLS configuration...")
+        client = motor.motor_asyncio.AsyncIOMotorClient(
+            mongodb_uri,
+            serverSelectionTimeoutMS=10000,  # Increased for Render's cold starts
+            connectTimeoutMS=10000,
+            socketTimeoutMS=10000,
+            tlsCAFile=certifi.where(),
+            ssl_cert_reqs=ssl.CERT_REQUIRED,
+            tlsAllowInvalidHostnames=False,
+            retryWrites=True,
+            w='majority',
+            maxPoolSize=10,  # Limit connection pool for Render
+            minPoolSize=1
+        )
         
         # Test the connection
         logger.info("Testing MongoDB connection...")
@@ -43,7 +62,7 @@ async def init_db():
         database = client[mongodb_db_name]
         
         # Initialize Beanie with document models
-        logger.info("Initializing Beanie with User model...")
+        logger.info("Initializing Beanie with document models...")
         await init_beanie(database, document_models=[User, LoanApplication, ApplicationDocument])
         logger.info("Beanie initialized successfully!")
         
