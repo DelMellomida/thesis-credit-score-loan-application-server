@@ -1,0 +1,301 @@
+Employment_Sector,Employment_Tenure_Months,Net_Salary_Per_Cutoff,Salary_Frequency,Housing_Status,Years_at_Current_Address,Household_Head,Number_of_Dependents,Comaker_Relationship,Comaker_Employment_Tenure_Months,Comaker_Net_Salary_Per_Cutoff,Has_Community_Role,Paluwagan_Participation,Other_Income_Source,Disaster_Preparedness,Is_Renewing_Client,Grace_Period_Usage_Rate,Late_Payment_Count,Had_Special_Consideration,Default
+Public,64,40729,Monthly,Owned,18,Yes,2,Spouse,196,64832,Yes,Yes,None,Community Plan,1,0.24,1,0,0
+Public,159,59971,Monthly,Owned,6,Yes,2,Spouse,115,40035,Yes,No,OFW_Remittance,Savings,1,0.01,0,0,0
+Private,22,17051,Monthly,Owned,2,No,5,Sibling,27,14466,No,No,None,None,0,0.95,9,1,1
+Private,173,67190,Monthly,Owned,7,Yes,0,Spouse,147,35589,No,Yes,None,Community Plan,1,0.17,0,1,0
+Private,113,25457,Monthly,Rented,28,Yes,0,Sibling,185,62894,No,No,OFW_Remittance,Insurance,1,0.14,2,0,0
+Private,168,63895,Monthly,Owned,13,No,1,Parent,89,76880,No,No,Business,Savings,1,0.24,2,0,0
+Private,182,26694,Monthly,Owned,29,Yes,0,Parent,62,30185,No,Yes,OFW_Remittance,Community Plan,0,0.14,0,0,0
+Public,172,60553,Bi-Weekly,Owned,11,Yes,0,Parent,130,67277,Yes,Yes,None,Savings,1,0.13,0,0,0
+Public,152,57521,Bi-Weekly,Rented,22,Yes,1,Parent,143,51097,Yes,Yes,OFW_Remittance,Community Plan,1,0.02,0,0,0
+Public,41,32230,Bi-Weekly,Owned,25,No,0,Sibling,208,72167,Yes,Yes,OFW_Remittance,Insurance,1,0.01,0,0,0
+Public,56,68965,Monthly,Owned,9,No,2,Spouse,90,43962,Yes,Yes,OFW_Remittance,Insurance,1,0.12,0,0,0
+Public,41,64803,Monthly,Owned,24,Yes,1,Parent,147,32152,Yes,No,OFW_Remittance,Insurance,1,0.24,0,0,0
+Public,189,36470,Monthly,Owned,20,Yes,2,Spouse,189,39178,No,Yes,OFW_Remittance,Insurance,1,0.05,0,0,0
+Public,132,67927,Monthly,Rented,17,Yes,0,Spouse,186,44602,Yes,Yes,Business,Insurance,1,0.09,0,0,0
+Public,13,9824,Bi-Weekly,Rented,2,No,6,Friend,11,13038,No,No,None,Savings,0,0.53,9,1,1
+Private,23,14362,Bi-Weekly,Rented,3,Yes,7,Friend,25,11307,No,No,None,Savings,0,0.6,7,1,1
+Private,72,29516,Bi-Weekly,Rented,23,Yes,2,Spouse,84,37095,Yes,Yes,None,Insurance,1,0.03,0,0,0
+Private,17,13820,Weekly,Rented,3,No,9,Friend,23,18026,No,Yes,None,None,0,0.86,9,0,1
+Private,116,35622,Bi-Weekly,Owned,29,Yes,2,Spouse,67,51603,No,Yes,OFW_Remittance,Community Plan,1,0.07,0,0,0
+Private,76,30801,Monthly,Owned,15,No,2,Spouse,188,77102,Yes,Yes,OFW_Remittance,Community Plan,1,0.22,2,0,0
+Public,187,69817,Monthly,Owned,17,Yes,2,Spouse,174,53449,Yes,Yes,Business,Insurance,1,0.12,2,0,0
+Public,179,45775,Bi-Weekly,Owned,14,Yes,2,Spouse,183,67550,Yes,No,Business,Community Plan,1,0.22,2,1,0
+Private,64,26916,Monthly,Rented,7,No,2,Parent,158,69226,Yes,Yes,None,Savings,1,0.2,1,0,0
+Private,167,52512,Monthly,Owned,15,Yes,2,Spouse,53,42755,Yes,Yes,None,Insurance,1,0.22,0,0,0
+Private,67,67028,Monthly,Rented,13,Yes,0,Parent,108,43155,Yes,Yes,OFW_Remittance,Community Plan,0,0.14,2,0,0
+Private,13,8147,Weekly,Rented,1,Yes,5,Friend,32,15041,No,No,None,Savings,0,0.91,5,1,1
+Private,59,65570,Monthly,Owned,27,Yes,1,Parent,177,40813,Yes,Yes,None,Insurance,0,0.15,0,0,0
+Public,116,60858,Monthly,Owned,14,Yes,2,Spouse,108,76474,Yes,Yes,Business,Insurance,1,0.22,2,0,0
+Public,135,50591,Monthly,Owned,12,Yes,2,Spouse,211,69496,No,No,OFW_Remittance,Community Plan,1,0.19,1,1,0
+Private,154,31893,Monthly,Owned,18,No,0,Spouse,67,34814,Yes,Yes,Business,Insurance,1,0.12,0,0,0
+Public,174,57332,Bi-Weekly,Owned,9,Yes,0,Parent,160,72848,No,Yes,OFW_Remittance,Community Plan,1,0.08,2,1,0
+Private,5,9772,Monthly,Rented,2,No,5,Sibling,24,10576,No,No,None,None,0,0.74,6,1,1
+Private,14,14938,Monthly,Rented,1,No,5,Sibling,8,8973,No,No,Freelance,None,0,0.66,8,1,1
+Private,50,30107,Bi-Weekly,Owned,15,Yes,0,Spouse,173,31101,Yes,Yes,Business,Savings,1,0.02,1,0,0
+Private,10,16498,Bi-Weekly,Rented,3,No,4,Friend,24,21902,No,No,Freelance,None,0,0.98,10,1,1
+Private,8,10157,Bi-Weekly,Rented,2,Yes,3,Friend,13,20707,No,No,None,Savings,0,0.91,8,0,1
+Private,9,12222,Monthly,Owned,2,Yes,9,Sibling,8,15889,No,No,None,None,0,0.98,9,1,1
+Public,71,34192,Bi-Weekly,Rented,17,No,2,Spouse,130,63448,Yes,Yes,OFW_Remittance,Savings,1,0.04,0,0,0
+Private,166,62717,Bi-Weekly,Owned,29,Yes,0,Spouse,164,63079,Yes,No,Business,Community Plan,1,0.23,0,0,0
+Private,22,19504,Bi-Weekly,Rented,2,No,6,Friend,35,14173,No,No,None,Savings,0,0.81,11,1,1
+Private,14,13254,Weekly,Owned,3,Yes,9,Friend,22,10173,No,No,None,Savings,0,0.85,10,0,1
+Public,102,43124,Bi-Weekly,Owned,26,Yes,0,Spouse,63,49578,Yes,No,OFW_Remittance,Insurance,0,0.14,2,0,0
+Public,62,66146,Monthly,Owned,24,Yes,0,Spouse,114,68242,Yes,No,Business,Community Plan,1,0.2,2,0,0
+Public,120,62457,Monthly,Owned,22,Yes,1,Spouse,78,47195,Yes,Yes,None,Insurance,1,0.0,0,0,0
+Public,183,41447,Monthly,Rented,12,No,1,Sibling,94,53075,Yes,Yes,Business,Insurance,1,0.04,1,0,0
+Private,165,51340,Monthly,Owned,16,No,1,Spouse,95,61697,No,No,Business,Savings,0,0.21,2,0,0
+Public,22,11315,Monthly,Rented,2,No,8,Sibling,11,11820,No,No,Freelance,None,0,0.75,11,1,1
+Public,81,65457,Monthly,Owned,12,Yes,0,Spouse,151,76915,No,No,OFW_Remittance,Insurance,1,0.04,2,1,0
+Public,193,54300,Monthly,Rented,8,Yes,2,Spouse,107,50601,Yes,No,OFW_Remittance,Insurance,1,0.05,2,0,0
+Public,179,36543,Monthly,Owned,13,No,2,Sibling,162,44509,No,Yes,Business,Insurance,1,0.17,1,1,0
+Public,73,61941,Monthly,Rented,8,Yes,1,Spouse,168,56003,No,Yes,Business,Savings,1,0.15,2,0,0
+Public,67,28722,Monthly,Owned,16,Yes,1,Spouse,93,37496,Yes,Yes,Business,Community Plan,0,0.08,2,0,0
+Public,166,29803,Bi-Weekly,Rented,26,Yes,2,Sibling,182,41848,No,Yes,OFW_Remittance,Savings,1,0.13,1,0,0
+Public,157,65029,Monthly,Owned,25,Yes,1,Parent,214,72558,No,Yes,Business,Insurance,1,0.04,0,0,0
+Public,93,42819,Bi-Weekly,Owned,15,Yes,2,Spouse,120,65643,Yes,No,Business,Community Plan,1,0.21,1,0,0
+Private,178,62138,Bi-Weekly,Owned,22,Yes,2,Spouse,201,31896,Yes,No,OFW_Remittance,Savings,1,0.23,1,0,0
+Public,20,8255,Bi-Weekly,Rented,3,No,5,Friend,34,19788,No,No,None,None,0,0.64,11,1,1
+Private,1,16420,Weekly,Rented,3,No,3,Friend,11,8172,No,Yes,Freelance,None,0,0.83,10,1,1
+Public,73,29714,Monthly,Rented,11,No,2,Spouse,152,31469,Yes,No,Business,Insurance,1,0.12,1,0,0
+Private,11,12804,Bi-Weekly,Rented,2,Yes,4,Friend,9,11899,No,Yes,None,None,1,0.88,5,0,1
+Public,148,59111,Bi-Weekly,Owned,25,Yes,1,Sibling,108,61250,No,No,OFW_Remittance,Savings,1,0.08,2,0,0
+Private,13,10062,Weekly,Rented,3,No,4,Friend,21,19639,No,No,None,None,0,0.95,7,1,1
+Public,167,47908,Monthly,Rented,27,Yes,1,Parent,208,34594,No,Yes,Business,Community Plan,1,0.23,1,0,0
+Private,5,19432,Weekly,Rented,2,No,4,Sibling,35,14103,No,No,Freelance,None,0,0.98,5,1,1
+Private,155,51042,Monthly,Owned,18,Yes,2,Sibling,180,75977,Yes,Yes,OFW_Remittance,Insurance,1,0.16,2,0,0
+Private,80,25713,Monthly,Owned,6,Yes,1,Spouse,88,53333,Yes,Yes,None,Insurance,1,0.24,2,0,0
+Private,5,17197,Monthly,Rented,2,No,7,Friend,21,10228,No,No,Freelance,None,1,0.8,11,0,1
+Public,148,26326,Monthly,Rented,15,No,2,Spouse,121,31811,Yes,Yes,Business,Insurance,1,0.03,1,0,0
+Public,52,63017,Monthly,Owned,26,No,1,Spouse,102,66380,No,No,Business,Savings,1,0.02,1,0,0
+Public,124,68119,Monthly,Owned,29,Yes,0,Spouse,218,58663,No,Yes,OFW_Remittance,Insurance,1,0.09,0,0,0
+Public,52,61951,Monthly,Rented,22,Yes,2,Sibling,160,47853,Yes,Yes,OFW_Remittance,Community Plan,1,0.01,2,0,0
+Private,178,31812,Monthly,Rented,7,Yes,1,Parent,145,74150,No,Yes,OFW_Remittance,Community Plan,1,0.19,0,1,0
+Private,12,14134,Bi-Weekly,Rented,3,No,3,Friend,19,19529,Yes,No,None,None,0,0.72,8,1,1
+Private,8,10502,Bi-Weekly,Rented,3,No,6,Friend,12,16215,No,No,None,None,0,0.51,6,0,1
+Public,173,50395,Monthly,Owned,11,Yes,1,Spouse,144,66034,No,Yes,Business,Insurance,1,0.23,2,1,0
+Private,170,40763,Monthly,Owned,9,No,1,Spouse,181,33817,No,Yes,Business,Community Plan,1,0.24,2,0,0
+Private,16,15671,Bi-Weekly,Rented,3,No,9,Friend,20,12174,No,No,Freelance,Savings,1,0.57,5,0,1
+Public,125,55811,Monthly,Rented,25,Yes,0,Spouse,138,73532,No,Yes,Business,Insurance,1,0.06,0,0,0
+Private,65,56833,Monthly,Rented,5,Yes,0,Spouse,165,49556,Yes,Yes,OFW_Remittance,Insurance,1,0.01,1,0,0
+Private,20,19097,Bi-Weekly,Rented,3,No,5,Friend,11,18036,No,No,None,None,0,0.79,11,1,1
+Public,194,45974,Monthly,Owned,23,Yes,2,Parent,179,52971,Yes,Yes,Business,Insurance,1,0.23,1,0,0
+Public,137,47962,Monthly,Rented,24,Yes,2,Parent,111,70994,Yes,Yes,None,Savings,1,0.03,1,0,0
+Public,17,10006,Weekly,Owned,3,No,7,Sibling,9,17960,No,No,None,None,0,0.55,8,0,1
+Private,107,63524,Monthly,Owned,28,Yes,2,Parent,199,75638,Yes,Yes,OFW_Remittance,Insurance,1,0.24,1,0,0
+Public,57,56004,Bi-Weekly,Rented,29,Yes,1,Parent,180,69807,Yes,Yes,None,Community Plan,1,0.1,0,0,0
+Private,20,11964,Weekly,Rented,3,No,5,Sibling,17,8199,Yes,No,None,None,0,1.0,7,0,1
+Public,95,47895,Monthly,Rented,21,Yes,2,Spouse,187,68255,Yes,No,OFW_Remittance,Community Plan,1,0.07,1,1,0
+Public,23,16704,Weekly,Rented,1,Yes,8,Friend,20,11332,No,No,None,Savings,0,0.72,5,1,1
+Private,65,34287,Monthly,Rented,7,Yes,1,Parent,68,53649,No,No,OFW_Remittance,Community Plan,1,0.07,2,0,0
+Private,17,14270,Weekly,Owned,3,No,6,Friend,18,12347,Yes,No,None,None,0,0.68,5,1,1
+Private,13,19506,Monthly,Rented,1,Yes,7,Sibling,23,12487,No,No,Freelance,None,0,0.9,5,1,1
+Public,18,9674,Weekly,Rented,1,No,3,Friend,23,19219,No,No,None,None,0,0.83,7,1,1
+Private,165,60582,Monthly,Rented,23,No,0,Spouse,162,71003,Yes,Yes,OFW_Remittance,Insurance,1,0.1,0,0,0
+Public,18,19423,Bi-Weekly,Rented,3,No,6,Friend,10,15793,Yes,No,None,None,0,0.98,10,1,1
+Private,96,30749,Monthly,Rented,6,No,0,Spouse,118,49082,Yes,Yes,OFW_Remittance,Insurance,1,0.06,1,0,0
+Public,42,35241,Monthly,Owned,24,No,1,Sibling,52,43034,Yes,Yes,Business,Insurance,1,0.06,0,0,0
+Public,107,30045,Monthly,Owned,13,Yes,0,Parent,193,40011,Yes,Yes,OFW_Remittance,Insurance,1,0.16,2,1,0
+Private,66,55344,Monthly,Owned,21,Yes,0,Spouse,105,77036,No,Yes,OFW_Remittance,Community Plan,1,0.11,2,1,0
+Public,138,51481,Monthly,Owned,27,Yes,2,Parent,133,38914,Yes,Yes,None,Community Plan,0,0.1,0,0,0
+Public,41,34534,Monthly,Owned,12,Yes,0,Spouse,56,66145,No,No,None,Community Plan,1,0.1,1,0,0
+Public,19,10015,Weekly,Owned,2,No,5,Friend,9,12607,Yes,No,None,Savings,0,0.59,8,0,1
+Public,130,26434,Monthly,Owned,13,No,1,Spouse,144,44985,Yes,Yes,Business,Community Plan,1,0.12,2,0,0
+Private,2,10980,Monthly,Rented,1,No,4,Friend,13,8934,No,No,None,None,0,0.93,6,0,1
+Private,5,13793,Bi-Weekly,Owned,2,No,7,Sibling,23,13652,No,No,None,None,1,0.99,6,1,1
+Public,194,32116,Monthly,Rented,20,Yes,2,Spouse,114,41179,Yes,Yes,Business,Community Plan,1,0.08,2,0,0
+Public,123,60896,Monthly,Owned,14,No,0,Spouse,54,37141,Yes,Yes,OFW_Remittance,Insurance,1,0.11,1,0,0
+Private,11,14213,Weekly,Rented,2,No,5,Sibling,21,13664,No,No,None,None,0,0.76,9,1,1
+Public,11,12701,Weekly,Rented,3,Yes,7,Friend,25,12164,No,Yes,None,None,0,0.54,7,0,1
+Public,197,50766,Monthly,Owned,23,Yes,0,Spouse,144,59101,No,Yes,OFW_Remittance,Insurance,0,0.21,0,0,0
+Private,7,11037,Monthly,Rented,1,Yes,6,Sibling,23,15472,No,No,None,None,0,0.84,6,0,1
+Public,82,29853,Bi-Weekly,Rented,12,Yes,1,Spouse,163,39190,No,No,OFW_Remittance,Insurance,1,0.18,1,0,0
+Private,10,14936,Bi-Weekly,Rented,1,No,7,Friend,35,19148,No,No,None,None,0,0.53,8,1,1
+Private,77,45907,Monthly,Owned,16,No,2,Sibling,78,68280,Yes,No,OFW_Remittance,Community Plan,1,0.02,2,0,0
+Public,48,54874,Monthly,Rented,6,Yes,2,Spouse,180,39714,Yes,Yes,Business,Community Plan,1,0.08,1,0,0
+Public,159,58153,Monthly,Owned,17,No,2,Spouse,54,79341,Yes,Yes,OFW_Remittance,Insurance,0,0.19,0,0,0
+Public,182,67972,Monthly,Owned,23,No,2,Parent,161,57815,Yes,Yes,OFW_Remittance,Community Plan,1,0.06,1,1,0
+Private,109,50540,Monthly,Rented,25,No,1,Parent,117,76646,No,Yes,Business,Community Plan,1,0.14,1,0,0
+Public,147,58112,Monthly,Owned,15,No,1,Spouse,51,66367,Yes,No,OFW_Remittance,Community Plan,1,0.19,1,0,0
+Private,108,26386,Monthly,Owned,18,No,0,Spouse,50,37923,No,Yes,Business,Community Plan,0,0.15,1,0,0
+Public,156,32083,Monthly,Owned,19,Yes,2,Spouse,185,45032,Yes,Yes,None,Community Plan,1,0.23,1,1,0
+Private,181,33665,Monthly,Owned,29,Yes,0,Spouse,61,43850,Yes,No,Business,Insurance,1,0.08,0,0,0
+Private,15,18468,Weekly,Owned,3,No,8,Friend,26,20659,No,No,None,Savings,0,0.54,7,1,1
+Public,133,53951,Monthly,Rented,27,Yes,0,Parent,203,33035,No,Yes,OFW_Remittance,Insurance,0,0.01,2,0,0
+Private,148,29810,Monthly,Owned,6,Yes,1,Spouse,152,68489,Yes,Yes,OFW_Remittance,Community Plan,0,0.17,2,0,0
+Private,15,14452,Weekly,Rented,2,No,8,Friend,31,16158,No,No,None,None,1,0.82,11,1,1
+Private,22,16538,Weekly,Rented,3,No,4,Sibling,10,12058,No,Yes,None,None,0,0.53,10,1,1
+Private,11,19874,Monthly,Owned,3,No,4,Friend,31,11838,No,No,Freelance,None,0,0.6,10,0,1
+Public,156,37230,Monthly,Owned,16,Yes,2,Spouse,85,61107,No,Yes,OFW_Remittance,Savings,1,0.08,0,1,0
+Public,197,41304,Bi-Weekly,Owned,26,Yes,2,Parent,56,60398,Yes,No,None,Community Plan,1,0.14,2,0,0
+Private,18,10252,Weekly,Rented,2,No,5,Sibling,8,14847,No,No,Freelance,None,0,0.97,6,0,1
+Public,92,41439,Monthly,Owned,12,Yes,0,Spouse,65,57089,No,No,Business,Insurance,1,0.08,2,0,0
+Private,10,10824,Weekly,Rented,3,No,3,Sibling,12,17959,Yes,No,None,None,0,0.77,5,1,1
+Private,66,44196,Monthly,Owned,16,No,1,Sibling,219,52217,Yes,Yes,Business,Savings,1,0.03,1,1,0
+Public,51,54632,Monthly,Owned,11,Yes,2,Spouse,80,43083,Yes,No,Business,Insurance,1,0.04,2,0,0
+Private,79,54368,Monthly,Owned,22,No,1,Parent,206,49262,No,No,OFW_Remittance,Community Plan,0,0.01,1,0,0
+Private,20,17110,Bi-Weekly,Rented,2,No,7,Friend,34,8877,Yes,No,None,None,0,0.95,8,1,1
+Public,2,11749,Bi-Weekly,Rented,1,No,4,Sibling,32,17066,No,Yes,None,None,0,0.62,9,0,1
+Public,100,41242,Monthly,Rented,7,Yes,0,Sibling,95,31361,Yes,Yes,OFW_Remittance,Insurance,1,0.13,1,0,0
+Private,17,13502,Weekly,Rented,2,No,9,Friend,30,13113,Yes,No,None,Savings,0,0.51,8,0,1
+Private,64,41111,Monthly,Rented,28,No,1,Spouse,91,43417,Yes,No,None,Insurance,1,0.01,2,0,0
+Public,96,59024,Monthly,Owned,10,Yes,0,Spouse,191,43074,Yes,Yes,None,Community Plan,1,0.21,2,1,0
+Public,73,66640,Bi-Weekly,Owned,5,Yes,0,Parent,54,64755,No,No,Business,Savings,1,0.09,1,0,0
+Public,100,52285,Bi-Weekly,Owned,24,Yes,0,Parent,113,57567,Yes,Yes,None,Insurance,1,0.04,2,0,0
+Private,94,64924,Monthly,Rented,21,Yes,2,Parent,173,75234,Yes,Yes,None,Community Plan,1,0.05,2,0,0
+Public,153,50755,Bi-Weekly,Owned,18,No,1,Parent,126,78546,Yes,Yes,Business,Insurance,1,0.05,1,0,0
+Public,12,18274,Weekly,Owned,2,No,9,Friend,15,10325,No,No,None,None,0,0.69,11,1,1
+Private,2,12314,Monthly,Owned,1,No,8,Friend,21,19463,No,No,None,None,0,0.57,8,1,1
+Private,67,49291,Monthly,Rented,12,Yes,0,Spouse,77,35461,Yes,Yes,OFW_Remittance,Savings,0,0.03,0,0,0
+Public,19,11742,Weekly,Rented,1,Yes,8,Sibling,34,17294,No,No,None,None,0,0.76,11,1,1
+Public,196,51059,Monthly,Rented,26,No,1,Sibling,111,48666,No,Yes,Business,Insurance,1,0.14,0,0,0
+Public,7,11701,Weekly,Rented,3,Yes,8,Sibling,19,14534,Yes,No,None,None,0,0.99,10,0,1
+Public,145,46698,Monthly,Owned,5,Yes,1,Sibling,161,51990,No,Yes,Business,Savings,1,0.0,1,1,0
+Private,182,28702,Monthly,Rented,11,Yes,1,Spouse,180,42930,Yes,Yes,Business,Savings,0,0.12,2,1,0
+Private,23,15785,Weekly,Rented,1,Yes,3,Sibling,19,20147,Yes,No,None,Savings,0,0.69,9,0,1
+Private,101,65761,Bi-Weekly,Owned,13,Yes,1,Parent,50,77324,Yes,Yes,None,Insurance,1,0.14,0,0,0
+Public,94,41846,Monthly,Owned,28,No,0,Spouse,159,71751,No,Yes,Business,Community Plan,0,0.13,2,0,0
+Public,80,63613,Monthly,Owned,21,Yes,2,Spouse,65,41225,Yes,Yes,Business,Insurance,1,0.23,0,0,0
+Public,52,27965,Bi-Weekly,Rented,27,Yes,2,Spouse,218,57232,Yes,Yes,OFW_Remittance,Insurance,1,0.24,0,0,0
+Private,9,16109,Weekly,Rented,3,No,4,Friend,22,9777,No,Yes,None,None,0,0.62,11,0,1
+Public,188,36445,Monthly,Owned,16,Yes,2,Spouse,183,72804,No,Yes,Business,Insurance,1,0.1,1,0,0
+Public,124,69057,Monthly,Owned,5,Yes,0,Spouse,74,40495,Yes,Yes,Business,Insurance,1,0.16,2,0,0
+Private,54,46490,Bi-Weekly,Rented,23,Yes,2,Parent,125,42784,No,Yes,OFW_Remittance,Savings,0,0.01,2,0,0
+Private,91,49599,Bi-Weekly,Owned,29,Yes,1,Spouse,107,55166,Yes,Yes,OFW_Remittance,Savings,1,0.2,0,1,0
+Private,159,68512,Bi-Weekly,Rented,5,Yes,2,Parent,109,38545,Yes,Yes,Business,Insurance,1,0.13,1,1,0
+Public,136,45762,Bi-Weekly,Owned,10,Yes,2,Spouse,191,76539,Yes,Yes,None,Community Plan,1,0.23,2,0,0
+Public,153,44741,Monthly,Owned,15,Yes,1,Spouse,191,51082,Yes,No,OFW_Remittance,Community Plan,0,0.06,0,1,0
+Public,100,29123,Monthly,Rented,6,Yes,0,Parent,218,41470,No,No,OFW_Remittance,Community Plan,0,0.19,2,0,0
+Public,195,42785,Monthly,Owned,11,Yes,1,Spouse,101,71483,Yes,Yes,Business,Insurance,1,0.24,0,0,0
+Private,181,38347,Monthly,Rented,23,Yes,1,Spouse,211,44769,Yes,No,OFW_Remittance,Insurance,0,0.11,1,0,0
+Private,118,68104,Bi-Weekly,Owned,8,Yes,1,Parent,167,44004,No,Yes,OFW_Remittance,Savings,1,0.15,0,0,0
+Public,184,27037,Monthly,Owned,5,No,0,Spouse,200,55144,Yes,No,OFW_Remittance,Insurance,1,0.11,1,0,0
+Private,61,43733,Monthly,Rented,6,Yes,2,Spouse,143,61258,Yes,Yes,None,Insurance,1,0.22,2,0,0
+Private,77,27206,Monthly,Owned,29,Yes,2,Spouse,217,75455,Yes,Yes,Business,Savings,1,0.05,1,1,0
+Private,60,63869,Bi-Weekly,Owned,27,Yes,1,Spouse,168,71982,Yes,Yes,OFW_Remittance,Community Plan,0,0.02,0,0,0
+Private,93,54326,Monthly,Owned,20,Yes,1,Spouse,214,71023,Yes,Yes,Business,Insurance,1,0.1,0,0,0
+Public,132,39473,Monthly,Owned,13,No,0,Spouse,179,39447,Yes,No,OFW_Remittance,Savings,1,0.1,0,0,0
+Public,58,64224,Monthly,Owned,19,Yes,0,Spouse,78,34475,No,Yes,Business,Savings,1,0.19,0,0,0
+Public,104,47209,Monthly,Owned,28,Yes,2,Spouse,74,72384,No,Yes,OFW_Remittance,Savings,1,0.21,0,0,0
+Private,15,19677,Weekly,Rented,2,No,4,Friend,6,12835,Yes,No,None,None,0,0.97,11,1,1
+Public,85,36450,Monthly,Owned,21,Yes,0,Spouse,202,51935,Yes,Yes,OFW_Remittance,Insurance,0,0.24,0,0,0
+Public,70,54856,Bi-Weekly,Owned,19,Yes,2,Spouse,169,32709,Yes,Yes,Business,Community Plan,1,0.11,0,0,0
+Private,85,29262,Bi-Weekly,Rented,27,No,1,Spouse,167,37799,Yes,Yes,OFW_Remittance,Community Plan,1,0.13,2,0,0
+Public,15,8960,Weekly,Rented,2,No,5,Sibling,14,9494,Yes,No,None,None,0,1.0,5,1,1
+Public,12,19712,Weekly,Owned,1,Yes,3,Sibling,33,12670,No,No,None,Savings,1,0.67,9,1,1
+Public,94,62992,Monthly,Owned,13,Yes,1,Spouse,100,50758,No,Yes,OFW_Remittance,Insurance,0,0.2,0,1,0
+Public,161,49597,Monthly,Owned,22,Yes,2,Parent,194,53263,Yes,Yes,OFW_Remittance,Insurance,1,0.1,1,1,0
+Private,69,67501,Monthly,Owned,26,Yes,0,Spouse,101,36256,Yes,Yes,OFW_Remittance,Insurance,1,0.13,1,0,0
+Private,44,28988,Monthly,Rented,18,Yes,0,Parent,202,55524,Yes,Yes,Business,Community Plan,1,0.2,1,1,0
+Public,68,29917,Monthly,Rented,13,Yes,1,Spouse,174,44163,No,No,Business,Insurance,0,0.14,2,0,0
+Public,71,66813,Bi-Weekly,Rented,27,No,1,Spouse,203,42963,Yes,Yes,None,Savings,1,0.06,1,0,0
+Private,10,19419,Weekly,Rented,2,No,9,Friend,32,16481,Yes,Yes,None,None,0,0.56,9,0,1
+Public,160,49638,Monthly,Owned,9,Yes,0,Spouse,192,40194,No,No,Business,Savings,1,0.07,2,0,0
+Public,183,66595,Monthly,Owned,14,No,0,Parent,155,72776,Yes,Yes,OFW_Remittance,Community Plan,1,0.22,1,0,0
+Public,194,56072,Monthly,Owned,9,Yes,2,Spouse,132,53857,Yes,No,OFW_Remittance,Insurance,1,0.12,1,0,0
+Private,40,43674,Monthly,Owned,25,Yes,2,Spouse,147,68243,Yes,No,OFW_Remittance,Insurance,0,0.0,0,0,0
+Private,4,9588,Bi-Weekly,Rented,3,Yes,5,Friend,30,19767,No,No,Freelance,None,0,1.0,6,0,1
+Private,2,18922,Monthly,Owned,3,No,9,Sibling,20,8766,No,Yes,None,None,0,0.55,8,0,1
+Public,38,45996,Monthly,Rented,27,Yes,0,Spouse,213,69010,Yes,Yes,None,Savings,1,0.17,0,0,0
+Private,136,30363,Monthly,Owned,21,Yes,1,Spouse,51,75995,No,Yes,Business,Community Plan,1,0.06,0,0,0
+Private,120,32972,Bi-Weekly,Rented,10,Yes,1,Spouse,129,32609,No,Yes,OFW_Remittance,Insurance,1,0.18,2,0,0
+Public,169,45158,Bi-Weekly,Owned,7,Yes,1,Spouse,76,73466,Yes,Yes,None,Insurance,0,0.2,2,0,0
+Public,125,64249,Monthly,Rented,23,No,2,Spouse,176,73868,Yes,No,None,Community Plan,0,0.06,0,0,0
+Private,1,14477,Bi-Weekly,Owned,3,No,7,Friend,7,12578,No,No,None,None,0,0.56,5,0,1
+Private,5,15293,Weekly,Rented,1,No,6,Friend,24,15770,No,No,None,Savings,0,0.54,8,1,1
+Private,137,42499,Monthly,Owned,15,No,1,Spouse,164,49516,Yes,Yes,OFW_Remittance,Insurance,0,0.22,1,0,0
+Private,61,50169,Monthly,Owned,23,Yes,1,Parent,139,75557,Yes,No,OFW_Remittance,Insurance,1,0.0,0,0,0
+Public,82,45155,Monthly,Owned,19,Yes,2,Spouse,59,46253,Yes,No,Business,Community Plan,1,0.21,0,0,0
+Public,19,19361,Bi-Weekly,Rented,3,No,3,Friend,24,12371,No,Yes,None,None,0,0.68,8,0,1
+Public,183,34375,Monthly,Owned,9,Yes,0,Parent,66,60323,No,Yes,OFW_Remittance,Insurance,1,0.15,2,0,0
+Public,178,63902,Bi-Weekly,Rented,16,Yes,0,Spouse,63,38145,No,Yes,Business,Insurance,0,0.14,2,1,0
+Private,22,11505,Bi-Weekly,Rented,1,No,3,Friend,31,10840,No,No,None,None,0,0.59,9,1,1
+Private,147,46824,Bi-Weekly,Owned,11,Yes,2,Spouse,90,54066,Yes,Yes,None,Insurance,1,0.12,2,0,0
+Public,182,53781,Monthly,Rented,22,No,0,Parent,56,59536,Yes,Yes,None,Community Plan,1,0.24,2,0,0
+Private,9,18894,Bi-Weekly,Rented,2,No,4,Friend,33,14533,No,No,None,Savings,1,0.55,8,1,1
+Public,183,43843,Monthly,Owned,17,No,2,Spouse,115,79425,Yes,Yes,Business,Community Plan,1,0.06,2,0,0
+Public,186,47650,Bi-Weekly,Rented,19,No,1,Spouse,193,42184,Yes,Yes,Business,Insurance,1,0.11,1,0,0
+Public,151,31420,Monthly,Owned,25,Yes,2,Spouse,201,51094,Yes,No,Business,Savings,1,0.22,0,0,0
+Public,85,36832,Monthly,Owned,5,No,2,Spouse,163,35679,No,Yes,OFW_Remittance,Savings,1,0.2,2,0,0
+Private,109,41641,Bi-Weekly,Owned,19,Yes,0,Parent,83,32714,Yes,Yes,OFW_Remittance,Insurance,1,0.0,1,0,0
+Public,22,17619,Weekly,Rented,3,No,9,Friend,20,19675,No,No,None,Savings,0,0.75,6,1,1
+Private,136,35101,Monthly,Owned,19,Yes,1,Parent,112,32779,Yes,Yes,OFW_Remittance,Savings,1,0.08,1,0,0
+Public,156,35060,Monthly,Owned,29,Yes,0,Spouse,181,62421,No,Yes,OFW_Remittance,Savings,1,0.11,0,0,0
+Public,5,14452,Bi-Weekly,Rented,2,No,7,Friend,6,16499,No,No,None,None,0,0.92,11,1,1
+Private,169,28795,Monthly,Owned,16,No,2,Parent,156,40636,No,Yes,None,Insurance,1,0.05,0,0,0
+Public,42,62171,Monthly,Owned,28,Yes,0,Spouse,116,64299,No,Yes,Business,Community Plan,1,0.08,2,1,0
+Public,1,14865,Bi-Weekly,Rented,2,No,7,Friend,33,16864,No,Yes,None,None,0,0.94,10,1,1
+Private,188,40891,Monthly,Owned,26,No,1,Spouse,85,40247,No,Yes,Business,Savings,1,0.08,1,0,0
+Public,11,19488,Weekly,Rented,2,No,8,Friend,31,12248,No,No,None,None,0,0.62,5,0,1
+Private,136,37654,Monthly,Rented,13,Yes,0,Sibling,159,70363,Yes,Yes,Business,Savings,1,0.2,2,0,0
+Public,65,35973,Bi-Weekly,Rented,10,No,0,Sibling,205,47464,Yes,No,None,Insurance,0,0.09,2,0,0
+Private,100,25341,Monthly,Rented,8,Yes,2,Parent,58,44175,Yes,Yes,Business,Insurance,1,0.25,0,0,0
+Public,10,11322,Monthly,Rented,2,Yes,9,Friend,32,16600,No,No,None,None,0,0.82,10,1,1
+Private,9,19521,Monthly,Rented,1,Yes,5,Friend,28,19918,No,No,None,Savings,0,0.63,11,0,1
+Private,19,15776,Bi-Weekly,Rented,2,No,5,Friend,20,8287,No,No,None,Savings,0,0.59,8,1,1
+Public,5,19346,Weekly,Rented,2,No,9,Friend,28,15283,Yes,No,None,None,1,0.59,8,0,1
+Public,19,8988,Bi-Weekly,Rented,3,No,5,Friend,31,18137,Yes,Yes,None,None,0,0.62,11,1,1
+Public,97,40278,Monthly,Owned,29,Yes,2,Spouse,48,37472,No,No,None,Insurance,1,0.19,2,1,0
+Public,158,48004,Monthly,Owned,9,Yes,2,Parent,62,62493,Yes,Yes,None,Savings,1,0.03,2,0,0
+Private,154,41027,Monthly,Owned,24,Yes,0,Spouse,190,75919,Yes,Yes,None,Community Plan,1,0.16,1,0,0
+Public,197,38326,Monthly,Owned,29,No,0,Spouse,145,52204,Yes,Yes,Business,Insurance,1,0.19,1,0,0
+Private,104,52091,Monthly,Owned,29,No,1,Spouse,216,63896,No,Yes,Business,Community Plan,0,0.08,1,0,0
+Private,6,12756,Weekly,Owned,3,No,4,Sibling,32,12544,No,No,Freelance,None,0,0.82,10,1,1
+Private,12,8406,Monthly,Rented,1,Yes,5,Friend,12,8356,No,No,None,Savings,0,0.73,6,1,1
+Public,139,45288,Bi-Weekly,Owned,17,Yes,0,Spouse,152,32122,No,Yes,Business,Savings,1,0.08,2,1,0
+Public,86,62427,Monthly,Owned,25,Yes,1,Spouse,130,56215,Yes,No,OFW_Remittance,Community Plan,0,0.13,1,0,0
+Private,22,12699,Weekly,Rented,2,Yes,5,Friend,9,11368,No,No,None,None,0,0.64,10,0,1
+Private,131,34397,Monthly,Rented,20,Yes,0,Spouse,164,70925,Yes,Yes,None,Savings,1,0.24,1,0,0
+Public,75,69472,Monthly,Owned,9,Yes,2,Spouse,74,42643,Yes,Yes,OFW_Remittance,Insurance,1,0.13,2,1,0
+Public,8,9868,Monthly,Rented,1,No,9,Sibling,27,12008,No,No,Freelance,None,0,0.61,9,1,1
+Private,37,59223,Monthly,Owned,15,Yes,1,Parent,159,67648,Yes,No,Business,Community Plan,1,0.11,0,0,0
+Public,68,25082,Bi-Weekly,Owned,18,Yes,1,Spouse,106,44431,Yes,No,Business,Insurance,1,0.11,0,0,0
+Public,110,36499,Monthly,Rented,20,Yes,1,Spouse,56,42956,No,Yes,None,Community Plan,1,0.15,2,0,0
+Private,83,40571,Monthly,Owned,12,Yes,2,Parent,179,63190,No,Yes,OFW_Remittance,Community Plan,1,0.06,1,0,0
+Private,66,30118,Monthly,Rented,19,Yes,1,Spouse,182,39404,Yes,Yes,None,Savings,1,0.24,0,0,0
+Public,57,32887,Bi-Weekly,Owned,17,Yes,2,Parent,140,44368,No,Yes,None,Insurance,1,0.16,0,0,0
+Public,10,15786,Monthly,Rented,1,Yes,4,Friend,26,15083,No,Yes,Freelance,None,0,0.94,11,0,1
+Public,49,65627,Monthly,Owned,8,No,1,Parent,175,77532,Yes,Yes,OFW_Remittance,Insurance,1,0.25,0,1,0
+Private,134,52265,Bi-Weekly,Owned,10,No,0,Spouse,55,56189,Yes,Yes,Business,Savings,1,0.1,0,0,0
+Public,129,61227,Bi-Weekly,Owned,20,No,0,Parent,73,58324,No,Yes,Business,Savings,0,0.09,2,0,0
+Private,23,14414,Weekly,Rented,1,No,5,Sibling,24,14135,No,No,None,None,0,0.63,7,1,1
+Private,121,58607,Monthly,Owned,6,Yes,0,Parent,53,75583,No,Yes,Business,Insurance,1,0.08,1,0,0
+Private,5,12129,Bi-Weekly,Owned,3,No,5,Friend,24,20860,No,No,None,None,0,0.75,10,1,1
+Public,55,53839,Bi-Weekly,Rented,19,Yes,2,Parent,132,35408,Yes,Yes,None,Insurance,0,0.05,1,0,0
+Public,74,29150,Bi-Weekly,Owned,5,No,0,Spouse,136,49477,Yes,Yes,None,Insurance,1,0.21,2,0,0
+Public,149,43728,Bi-Weekly,Owned,14,Yes,2,Spouse,166,33051,No,Yes,Business,Insurance,1,0.14,1,0,0
+Private,91,31531,Monthly,Owned,15,No,1,Spouse,50,56134,No,Yes,Business,Community Plan,1,0.21,1,0,0
+Private,148,28214,Monthly,Rented,24,Yes,1,Spouse,57,61467,No,Yes,OFW_Remittance,Insurance,1,0.23,1,0,0
+Public,186,32467,Bi-Weekly,Owned,11,Yes,1,Parent,110,35071,Yes,Yes,OFW_Remittance,Savings,1,0.15,2,0,0
+Private,7,19889,Monthly,Rented,3,Yes,5,Friend,34,13846,Yes,No,Freelance,None,0,0.78,10,1,1
+Private,101,57529,Monthly,Owned,12,Yes,2,Spouse,71,60310,No,No,Business,Community Plan,1,0.17,0,1,0
+Public,53,66101,Monthly,Rented,15,Yes,2,Parent,101,36726,Yes,Yes,OFW_Remittance,Insurance,1,0.06,1,0,0
+Private,18,15489,Weekly,Rented,1,No,8,Friend,27,16562,No,Yes,None,Savings,0,0.56,10,0,1
+Public,68,32004,Bi-Weekly,Owned,28,Yes,0,Sibling,67,66365,No,No,OFW_Remittance,Insurance,0,0.25,2,1,0
+Public,199,58078,Bi-Weekly,Owned,17,Yes,2,Spouse,217,65985,No,Yes,Business,Insurance,1,0.12,2,0,0
+Public,138,60194,Bi-Weekly,Owned,14,Yes,1,Spouse,73,55583,Yes,Yes,Business,Savings,0,0.04,1,0,0
+Public,166,38458,Bi-Weekly,Owned,24,Yes,1,Parent,134,48085,Yes,Yes,OFW_Remittance,Insurance,1,0.14,0,0,0
+Private,21,8210,Weekly,Owned,1,No,4,Friend,11,19508,No,No,None,None,0,0.85,8,1,1
+Private,16,12158,Monthly,Rented,2,Yes,5,Friend,20,19050,Yes,No,Freelance,None,0,0.6,6,1,1
+Private,115,61144,Monthly,Owned,24,Yes,0,Parent,161,30495,No,No,OFW_Remittance,Community Plan,1,0.22,2,0,0
+Public,62,51233,Monthly,Owned,22,No,2,Spouse,161,56456,Yes,No,Business,Insurance,1,0.06,0,0,0
+Private,16,16574,Bi-Weekly,Rented,3,No,4,Sibling,15,19433,Yes,No,None,None,0,0.8,11,1,1
+Public,124,62323,Monthly,Owned,25,No,2,Spouse,165,67966,Yes,Yes,None,Community Plan,1,0.15,2,0,0
+Private,62,44862,Monthly,Owned,17,Yes,2,Sibling,125,33250,Yes,Yes,OFW_Remittance,Insurance,0,0.03,1,0,0
+Public,14,16032,Monthly,Rented,3,No,5,Friend,16,17392,No,No,None,None,0,0.64,7,1,1
+Public,87,60562,Bi-Weekly,Rented,24,Yes,1,Parent,147,63596,Yes,Yes,Business,Community Plan,1,0.18,0,0,0
+Private,60,38398,Monthly,Owned,13,No,1,Spouse,209,39780,No,Yes,OFW_Remittance,Insurance,1,0.14,2,0,0
+Public,191,45914,Monthly,Owned,6,Yes,1,Sibling,198,42625,Yes,Yes,OFW_Remittance,Community Plan,1,0.06,2,0,0
+Private,163,48335,Bi-Weekly,Owned,6,Yes,0,Spouse,184,53281,No,No,OFW_Remittance,Savings,0,0.15,1,0,0
+Private,40,66709,Monthly,Rented,29,Yes,0,Parent,49,57692,Yes,Yes,Business,Insurance,1,0.13,2,1,0
+Public,197,57533,Monthly,Owned,5,Yes,0,Spouse,60,42166,Yes,Yes,None,Insurance,1,0.24,2,0,0
+Public,15,17291,Weekly,Rented,3,No,9,Friend,17,16880,No,Yes,None,None,0,0.71,9,1,1
+Public,157,33944,Bi-Weekly,Owned,27,Yes,2,Spouse,89,55460,No,Yes,OFW_Remittance,Savings,1,0.13,0,0,0
+Private,115,30449,Monthly,Rented,19,No,1,Spouse,191,39032,Yes,No,OFW_Remittance,Insurance,1,0.05,0,0,0
+Public,192,68095,Monthly,Rented,11,Yes,0,Spouse,219,39150,Yes,Yes,Business,Savings,0,0.05,1,0,0
+Public,13,17502,Weekly,Rented,3,No,9,Friend,30,18320,No,No,Freelance,None,0,0.63,10,0,1
+Private,3,17795,Weekly,Rented,1,No,5,Friend,22,20186,No,No,None,None,0,0.62,6,1,1
+Private,139,62354,Monthly,Owned,10,Yes,0,Parent,99,40867,No,Yes,OFW_Remittance,Insurance,1,0.03,1,0,0
+Public,117,62782,Monthly,Rented,21,Yes,2,Spouse,50,65388,No,Yes,Business,Insurance,1,0.01,2,0,0
+Private,14,8531,Bi-Weekly,Rented,1,No,3,Friend,24,21476,No,No,None,Savings,0,0.89,5,0,1
+Private,21,10027,Weekly,Owned,3,No,3,Friend,20,12557,No,No,None,None,0,0.57,7,1,1

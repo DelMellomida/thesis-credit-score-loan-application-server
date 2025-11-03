@@ -1,0 +1,96 @@
+Employment_Sector,Employment_Tenure_Months,Net_Salary_Per_Cutoff,Salary_Frequency,Housing_Status,Years_at_Current_Address,Household_Head,Number_of_Dependents,Comaker_Relationship,Comaker_Employment_Tenure_Months,Comaker_Net_Salary_Per_Cutoff,Has_Community_Role,Paluwagan_Participation,Other_Income_Source,Disaster_Preparedness,Is_Renewing_Client,Default
+Private,113,28630.98,Weekly,Owned,1.8,No,1,Spouse,10,43232.89,No,Yes,Business,Savings,0,0
+Private,10,37835.26,Monthly,Rented,0.8,No,4,Friend,113,29375.14,No,No,None,None,0,1
+Private,11,42421.16,Bimonthly,Rented,0.1,No,3,Friend,11,15459.57,No,No,None,None,0,1
+Public,103,26084.18,Weekly,Owned,8.9,Yes,1,Spouse,116,44812.26,No,Yes,OFW Remittance,Community Plan,0,0
+Private,48,21958.89,Bimonthly,Rented,3.6,No,2,Sibling,11,28999.04,No,No,Freelance,Savings,0,0
+Private,68,29315.48,Weekly,Owned,5.1,Yes,1,Parent,108,42676.31,Yes,Yes,Business,Insurance,0,0
+Public,111,39932.38,Weekly,Owned,0.4,Yes,0,Spouse,11,44987.89,Yes,Yes,OFW Remittance,Community Plan,0,0
+Private,11,16342.47,Monthly,Rented,0.5,No,4,Friend,11,15161.09,No,No,None,None,0,1
+Public,118,33488.47,Weekly,Owned,9.8,Yes,1,Spouse,10,43111.43,Yes,Yes,Business,Community Plan,0,0
+Private,11,24996.35,Bimonthly,Rented,2.8,No,2,Sibling,11,25111.82,No,No,Freelance,Savings,0,1
+Public,89,37293.46,Weekly,Owned,7.8,Yes,1,Parent,10,42188.11,Yes,Yes,Business,Insurance,0,0
+Private,11,18858.15,Monthly,Rented,1.1,No,3,Friend,11,19111.48,No,No,None,None,0,1
+Private,41,28838.25,Bimonthly,Owned,3.1,Yes,2,Parent,11,29188.99,No,Yes,Freelance,Savings,0,0
+Public,98,31112.89,Weekly,Owned,8.1,Yes,1,Spouse,10,41118.21,Yes,Yes,Business,Community Plan,0,0
+Private,11,21151.12,Monthly,Rented,1.8,No,3,Friend,11,21188.29,No,No,None,None,0,1
+Private,60,23188.29,Bimonthly,Rented,4.9,No,2,Sibling,11,23112.11,No,No,Freelance,Savings,0,0
+Public,101,38881.92,Weekly,Owned,9.1,Yes,0,Spouse,10,43811.29,Yes,Yes,OFW Remittance,Community Plan,0,0
+Private,11,15182.19,Monthly,Rented,0.2,No,4,Friend,11,15118.29,No,No,None,None,0,1
+Private,33,26182.19,Bimonthly,Owned,2.9,Yes,2,Parent,11,26118.29,No,Yes,Freelance,Savings,0,0
+Public,81,34182.19,Weekly,Owned,6.9,Yes,1,Parent,10,41182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,19182.19,Monthly,Rented,1.1,No,3,Friend,11,19118.29,No,No,None,None,0,1
+Private,55,24182.19,Bimonthly,Rented,4.1,No,2,Sibling,11,24118.29,No,No,Freelance,Savings,0,0
+Public,95,36182.19,Weekly,Owned,8.1,Yes,1,Spouse,10,42182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,17182.19,Monthly,Rented,0.9,No,4,Friend,11,17118.29,No,No,None,None,0,1
+Private,28,27182.19,Bimonthly,Owned,2.1,Yes,2,Parent,11,27118.29,No,Yes,Freelance,Savings,0,0
+Public,75,32182.19,Weekly,Owned,6.1,Yes,1,Parent,10,40182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,20182.19,Monthly,Rented,1.5,No,3,Friend,11,20118.29,No,No,None,None,0,1
+Private,50,22182.19,Bimonthly,Rented,3.9,No,2,Sibling,11,22118.29,No,No,Freelance,Savings,0,0
+Public,90,35182.19,Weekly,Owned,7.9,Yes,1,Spouse,10,41182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,16182.19,Monthly,Rented,0.5,No,4,Friend,11,16118.29,No,No,None,None,0,1
+Private,25,28182.19,Bimonthly,Owned,1.9,Yes,2,Parent,11,28118.29,No,Yes,Freelance,Savings,0,0
+Public,70,30182.19,Weekly,Owned,5.9,Yes,1,Parent,10,39182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,22182.19,Monthly,Rented,1.9,No,3,Friend,11,22118.29,No,No,None,None,0,1
+Private,45,25182.19,Bimonthly,Rented,3.5,No,2,Sibling,11,25118.29,No,No,Freelance,Savings,0,0
+Public,85,33182.19,Weekly,Owned,7.5,Yes,1,Spouse,10,40182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,18182.19,Monthly,Rented,0.8,No,4,Friend,11,18118.29,No,No,None,None,0,1
+Private,22,29182.19,Bimonthly,Owned,1.5,Yes,2,Parent,11,29118.29,No,Yes,Freelance,Savings,0,0
+Public,65,31182.19,Weekly,Owned,5.5,Yes,1,Parent,10,38182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,23182.19,Monthly,Rented,2.1,No,3,Friend,11,23118.29,No,No,None,None,0,1
+Private,40,26182.19,Bimonthly,Rented,3.1,No,2,Sibling,11,26118.29,No,No,Freelance,Savings,0,0
+Public,80,34182.19,Weekly,Owned,7.1,Yes,1,Spouse,10,41182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,19182.19,Monthly,Rented,1.2,No,4,Friend,11,19118.29,No,No,None,None,0,1
+Private,20,25182.19,Bimonthly,Owned,1.2,Yes,2,Parent,11,25118.29,No,Yes,Freelance,Savings,0,0
+Public,60,29182.19,Weekly,Owned,5.1,Yes,1,Parent,10,37182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,24182.19,Monthly,Rented,2.5,No,3,Friend,11,24118.29,No,No,None,None,0,1
+Private,35,27182.19,Bimonthly,Rented,2.8,No,2,Sibling,11,27118.29,No,No,Freelance,Savings,0,0
+Public,75,32182.19,Weekly,Owned,6.8,Yes,1,Spouse,10,39182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,20182.19,Monthly,Rented,1.6,No,4,Friend,11,20118.29,No,No,None,None,0,1
+Private,18,26182.19,Bimonthly,Owned,0.9,Yes,2,Parent,11,26118.29,No,Yes,Freelance,Savings,0,0
+Public,55,28182.19,Weekly,Owned,4.8,Yes,1,Parent,10,36182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,25182.19,Monthly,Rented,2.8,No,3,Friend,11,25118.29,No,No,None,None,0,1
+Private,30,28182.19,Bimonthly,Rented,2.5,No,2,Sibling,11,28118.29,No,No,Freelance,Savings,0,0
+Public,70,31182.19,Weekly,Owned,6.5,Yes,1,Spouse,10,38182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,21182.19,Monthly,Rented,1.8,No,4,Friend,11,21118.29,No,No,None,None,0,1
+Private,15,27182.19,Bimonthly,Owned,0.5,Yes,2,Parent,11,27118.29,No,Yes,Freelance,Savings,0,0
+Public,50,27182.19,Weekly,Owned,4.5,Yes,1,Parent,10,35182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,26182.19,Monthly,Rented,3.0,No,3,Friend,11,26118.29,No,No,None,None,0,1
+Private,28,29182.19,Bimonthly,Rented,2.2,No,2,Sibling,11,29118.29,No,No,Freelance,Savings,0,0
+Public,65,30182.19,Weekly,Owned,6.2,Yes,1,Spouse,10,37182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,22182.19,Monthly,Rented,2.0,No,4,Friend,11,22118.29,No,No,None,None,0,1
+Private,12,28182.19,Bimonthly,Owned,0.2,Yes,2,Parent,11,28118.29,No,Yes,Freelance,Savings,0,0
+Public,45,26182.19,Weekly,Owned,4.2,Yes,1,Parent,10,34182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,27182.19,Monthly,Rented,3.2,No,3,Friend,11,27118.29,No,No,None,None,0,1
+Private,25,25182.19,Bimonthly,Rented,1.8,No,2,Sibling,11,25118.29,No,No,Freelance,Savings,0,0
+Public,60,29182.19,Weekly,Owned,5.8,Yes,1,Spouse,10,36182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,23182.19,Monthly,Rented,2.2,No,4,Friend,11,23118.29,No,No,None,None,0,1
+Private,10,29182.19,Bimonthly,Owned,0.1,Yes,2,Parent,11,29118.29,No,Yes,Freelance,Savings,0,0
+Public,40,25182.19,Weekly,Owned,3.8,Yes,1,Parent,10,33182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,28182.19,Monthly,Rented,3.5,No,3,Friend,11,28118.29,No,No,None,None,0,1
+Private,22,26182.19,Bimonthly,Rented,1.5,No,2,Sibling,11,26118.29,No,No,Freelance,Savings,0,0
+Public,55,28182.19,Weekly,Owned,5.5,Yes,1,Spouse,10,35182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,24182.19,Monthly,Rented,2.5,No,4,Friend,11,24118.29,No,No,None,None,0,1
+Private,8,25182.19,Bimonthly,Owned,0.0,Yes,2,Parent,11,25118.29,No,Yes,Freelance,Savings,0,0
+Public,35,24182.19,Weekly,Owned,3.5,Yes,1,Parent,10,32182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,29182.19,Monthly,Rented,3.8,No,3,Friend,11,29118.29,No,No,None,None,0,1
+Private,20,27182.19,Bimonthly,Rented,1.2,No,2,Sibling,11,27118.29,No,No,Freelance,Savings,0,0
+Public,50,27182.19,Weekly,Owned,5.2,Yes,1,Spouse,10,34182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,25182.19,Monthly,Rented,2.8,No,4,Friend,11,25118.29,No,No,None,None,0,1
+Private,6,26182.19,Bimonthly,Owned,0.0,Yes,2,Parent,11,26118.29,No,Yes,Freelance,Savings,0,0
+Public,30,23182.19,Weekly,Owned,3.2,Yes,1,Parent,10,31182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,28182.19,Monthly,Rented,3.6,No,3,Friend,11,28118.29,No,No,None,None,0,1
+Private,18,28182.19,Bimonthly,Rented,0.9,No,2,Sibling,11,28118.29,No,No,Freelance,Savings,0,0
+Public,45,26182.19,Weekly,Owned,4.9,Yes,1,Spouse,10,33182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,26182.19,Monthly,Rented,3.0,No,4,Friend,11,26118.29,No,No,None,None,0,1
+Private,5,27182.19,Bimonthly,Owned,0.0,Yes,2,Parent,11,27118.29,No,Yes,Freelance,Savings,0,0
+Public,25,22182.19,Weekly,Owned,2.9,Yes,1,Parent,10,30182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,27182.19,Monthly,Rented,3.2,No,3,Friend,11,27118.29,No,No,None,None,0,1
+Private,15,29182.19,Bimonthly,Rented,0.5,No,2,Sibling,11,29118.29,No,No,Freelance,Savings,0,0
+Public,40,25182.19,Weekly,Owned,4.5,Yes,1,Spouse,10,32182.19,Yes,Yes,Business,Community Plan,0,0
+Private,11,27182.19,Monthly,Rented,3.1,No,4,Friend,11,27118.29,No,No,None,None,0,1
+Private,4,28182.19,Bimonthly,Owned,0.0,Yes,2,Parent,11,28118.29,No,Yes,Freelance,Savings,0,0
+Public,20,21182.19,Weekly,Owned,2.5,Yes,1,Parent,10,29182.19,Yes,Yes,Business,Insurance,0,0
+Private,11,26182.19,Monthly,Rented,2.9,No,3,Friend,11,26118.29,No,No,None,None,0,1
+Private,12,25182.19,Bimonthly,Rented,0.2,No,2,Sibling,11,25118.29,No,No,Freelance,Savings,0,0
+Public,35,24182.19,Weekly,Owned,4.2,Yes,1,Spouse,10,31182.19,Yes,Yes,Business,Community Plan,0,0

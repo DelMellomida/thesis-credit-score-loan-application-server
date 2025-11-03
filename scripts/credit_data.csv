@@ -1,0 +1,107 @@
+Employment_Sector,Employment_Tenure_Months,Net_Salary_Per_Cutoff,Salary_Frequency,Housing_Status,Years_at_Current_Address,Household_Head,Number_of_Dependents,Comaker_Relationship,Comaker_Emp_Tenure,Comaker_Net_Salary,Has_Community_Role,Paluwagan_Participation,Other_Income_Source,Disaster_Preparedness,Is_Renewing_Client,Default
+Private,48,35000,Monthly,Owned,3.2,Yes,3,Spouse,72,28000,Member,Sometimes,Business,Savings,0,0
+Public,156,42000,Monthly,Rented,1.8,No,1,Parent,240,35000,Leader,Frequently,None,Insurance,0,1
+Private,24,18000,Biweekly,Owned,5.4,Yes,4,Sibling,36,22000,None,Rarely,Freelance,None,0,0
+Public,96,55000,Monthly,Owned,7.1,Yes,2,Spouse,108,48000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,12,15000,Weekly,Rented,0.8,No,0,Friend,18,12000,None,Never,None,None,0,1
+Private,84,32000,Monthly,Owned,4.6,Yes,5,Parent,144,38000,Member,Sometimes,Business,Savings,0,0
+Public,192,68000,Monthly,Rented,2.3,No,2,Spouse,168,52000,Leader,Frequently,None,Insurance,0,0
+Private,36,25000,Bimonthly,Owned,6.8,Yes,3,Sibling,48,20000,Member,Sometimes,Freelance,Savings,0,1
+Private,72,29000,Monthly,Rented,1.5,No,1,Friend,24,16000,None,Rarely,None,None,0,0
+Public,120,58000,Monthly,Owned,8.2,Yes,4,Spouse,180,64000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,18,12000,Weekly,Rented,0.4,No,2,Parent,42,18000,None,Never,Business,None,0,1
+Private,60,28000,Biweekly,Owned,3.9,Yes,3,Sibling,72,25000,Member,Sometimes,Freelance,Savings,0,0
+Public,168,72000,Monthly,Rented,2.7,No,1,Spouse,156,68000,Leader,Frequently,None,Insurance,0,0
+Private,30,22000,Monthly,Owned,5.2,Yes,6,Parent,96,32000,Member,Sometimes,Business,Savings,0,1
+Private,45,26000,Bimonthly,Rented,1.2,No,0,Friend,18,14000,None,Rarely,None,None,0,0
+Public,132,62000,Monthly,Owned,6.4,Yes,2,Spouse,144,58000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,21,16000,Weekly,Rented,0.9,No,4,Sibling,36,19000,None,Never,Freelance,None,0,1
+Private,78,31000,Monthly,Owned,4.1,Yes,3,Parent,108,35000,Member,Sometimes,Business,Savings,0,0
+Public,204,75000,Monthly,Rented,3.6,No,1,Spouse,192,72000,Leader,Frequently,None,Insurance,0,0
+Private,33,24000,Biweekly,Owned,7.8,Yes,5,Sibling,54,22000,Member,Sometimes,Freelance,Savings,0,1
+Private,54,27000,Monthly,Rented,1.7,No,2,Friend,30,17000,None,Rarely,None,None,0,0
+Public,144,65000,Monthly,Owned,5.9,Yes,3,Spouse,168,61000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,15,13000,Weekly,Rented,0.6,No,1,Parent,24,15000,None,Never,Business,None,0,1
+Private,66,30000,Bimonthly,Owned,3.4,Yes,4,Sibling,78,28000,Member,Sometimes,Freelance,Savings,0,0
+Public,180,70000,Monthly,Rented,2.1,No,2,Spouse,204,66000,Leader,Frequently,None,Insurance,0,0
+Private,39,25000,Monthly,Owned,6.3,Yes,6,Parent,84,33000,Member,Sometimes,Business,Savings,0,1
+Private,27,19000,Biweekly,Rented,0.8,No,0,Friend,12,11000,None,Rarely,None,None,0,0
+Public,108,56000,Monthly,Owned,4.7,Yes,3,Spouse,120,53000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,42,26000,Weekly,Rented,1.4,No,2,Sibling,48,21000,None,Never,Freelance,None,0,1
+Private,75,32000,Monthly,Owned,8.1,Yes,4,Parent,132,39000,Member,Sometimes,Business,Savings,0,0
+Public,216,78000,Monthly,Rented,3.2,No,1,Spouse,180,74000,Leader,Frequently,None,Insurance,0,0
+Private,24,17000,Bimonthly,Owned,5.6,Yes,5,Sibling,60,23000,Member,Sometimes,Freelance,Savings,0,1
+Private,51,28000,Monthly,Rented,1.9,No,2,Friend,36,18000,None,Rarely,None,None,0,0
+Public,156,67000,Monthly,Owned,7.3,Yes,3,Spouse,144,63000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,18,14000,Weekly,Rented,0.5,No,1,Parent,30,16000,None,Never,Business,None,0,1
+Private,69,29000,Biweekly,Owned,4.2,Yes,4,Sibling,81,27000,Member,Sometimes,Freelance,Savings,0,0
+Public,192,73000,Monthly,Rented,2.8,No,2,Spouse,216,69000,Leader,Frequently,None,Insurance,0,0
+Private,36,23000,Monthly,Owned,6.7,Yes,6,Parent,96,34000,Member,Sometimes,Business,Savings,0,1
+Private,45,26000,Bimonthly,Rented,1.3,No,0,Friend,21,15000,None,Rarely,None,None,0,0
+Public,135,64000,Monthly,Owned,5.1,Yes,3,Spouse,156,60000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,30,20000,Weekly,Rented,0.7,No,2,Sibling,42,19000,None,Never,Freelance,None,0,1
+Private,72,31000,Monthly,Owned,3.8,Yes,4,Parent,114,36000,Member,Sometimes,Business,Savings,0,0
+Public,168,71000,Monthly,Rented,2.4,No,1,Spouse,192,67000,Leader,Frequently,None,Insurance,0,0
+Private,21,16000,Biweekly,Owned,7.9,Yes,5,Sibling,57,24000,Member,Sometimes,Freelance,Savings,0,1
+Private,57,27000,Monthly,Rented,1.6,No,2,Friend,33,17000,None,Rarely,None,None,0,0
+Public,147,66000,Monthly,Owned,4.9,Yes,3,Spouse,171,62000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,33,21000,Weekly,Rented,0.9,No,1,Parent,45,18000,None,Never,Business,None,0,1
+Private,78,32000,Bimonthly,Owned,3.5,Yes,4,Sibling,90,29000,Member,Sometimes,Freelance,Savings,0,0
+Public,204,76000,Monthly,Rented,2.6,No,2,Spouse,228,72000,Leader,Frequently,None,Insurance,0,0
+Private,27,18000,Monthly,Owned,6.2,Yes,6,Parent,81,35000,Member,Sometimes,Business,Savings,0,1
+Private,48,25000,Biweekly,Rented,1.1,No,0,Friend,24,14000,None,Rarely,None,None,0,0
+Public,120,59000,Monthly,Owned,5.4,Yes,3,Spouse,144,55000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,15,13000,Weekly,Rented,0.4,No,2,Sibling,27,16000,None,Never,Freelance,None,0,1
+Private,63,30000,Monthly,Owned,4.3,Yes,4,Parent,105,37000,Member,Sometimes,Business,Savings,0,0
+Public,189,74000,Monthly,Rented,3.1,No,1,Spouse,213,70000,Leader,Frequently,None,Insurance,0,0
+Private,39,24000,Bimonthly,Owned,7.6,Yes,5,Sibling,75,26000,Member,Sometimes,Freelance,Savings,0,1
+Private,54,28000,Monthly,Rented,1.8,No,2,Friend,30,18000,None,Rarely,None,None,0,0
+Public,162,68000,Monthly,Owned,6.1,Yes,3,Spouse,186,64000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,24,17000,Weekly,Rented,0.6,No,1,Parent,36,19000,None,Never,Business,None,0,1
+Private,69,31000,Biweekly,Owned,3.7,Yes,4,Sibling,87,28000,Member,Sometimes,Freelance,Savings,0,0
+Public,195,75000,Monthly,Rented,2.9,No,2,Spouse,219,71000,Leader,Frequently,None,Insurance,0,0
+Private,42,23000,Monthly,Owned,5.8,Yes,6,Parent,90,36000,Member,Sometimes,Business,Savings,0,1
+Private,36,20000,Bimonthly,Rented,1.4,No,0,Friend,18,13000,None,Rarely,None,None,0,0
+Public,126,61000,Monthly,Owned,4.6,Yes,3,Spouse,150,57000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,18,15000,Weekly,Rented,0.8,No,2,Sibling,30,17000,None,Never,Freelance,None,0,1
+Private,75,32000,Monthly,Owned,3.3,Yes,4,Parent,117,38000,Member,Sometimes,Business,Savings,0,0
+Public,171,72000,Monthly,Rented,2.5,No,1,Spouse,195,68000,Leader,Frequently,None,Insurance,0,0
+Private,33,19000,Biweekly,Owned,7.4,Yes,5,Sibling,69,25000,Member,Sometimes,Freelance,Savings,0,1
+Private,51,26000,Monthly,Rented,1.7,No,2,Friend,27,16000,None,Rarely,None,None,0,0
+Public,153,67000,Monthly,Owned,5.2,Yes,3,Spouse,177,63000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,27,18000,Weekly,Rented,0.5,No,1,Parent,39,18000,None,Never,Business,None,0,1
+Private,66,29000,Bimonthly,Owned,4.1,Yes,4,Sibling,84,27000,Member,Sometimes,Freelance,Savings,0,0
+Public,186,73000,Monthly,Rented,3.4,No,2,Spouse,210,69000,Leader,Frequently,None,Insurance,0,0
+Private,45,22000,Monthly,Owned,6.9,Yes,6,Parent,99,37000,Member,Sometimes,Business,Savings,0,1
+Private,39,24000,Biweekly,Rented,1.2,No,0,Friend,21,14000,None,Rarely,None,None,0,0
+Public,117,58000,Monthly,Owned,4.8,Yes,3,Spouse,141,54000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,21,16000,Weekly,Rented,0.7,No,2,Sibling,33,17000,None,Never,Freelance,None,0,1
+Private,72,31000,Monthly,Owned,3.6,Yes,4,Parent,108,39000,Member,Sometimes,Business,Savings,0,0
+Public,198,76000,Monthly,Rented,2.2,No,1,Spouse,222,72000,Leader,Frequently,None,Insurance,0,0
+Private,30,20000,Bimonthly,Owned,8.3,Yes,5,Sibling,66,26000,Member,Sometimes,Freelance,Savings,0,1
+Private,48,27000,Monthly,Rented,1.5,No,2,Friend,24,15000,None,Rarely,None,None,0,0
+Public,144,65000,Monthly,Owned,5.7,Yes,3,Spouse,168,61000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,24,17000,Weekly,Rented,0.9,No,1,Parent,42,19000,None,Never,Business,None,0,1
+Private,63,30000,Biweekly,Owned,3.9,Yes,4,Sibling,81,28000,Member,Sometimes,Freelance,Savings,0,0
+Public,177,71000,Monthly,Rented,2.7,No,2,Spouse,201,67000,Leader,Frequently,None,Insurance,0,0
+Private,36,21000,Monthly,Owned,7.1,Yes,6,Parent,84,38000,Member,Sometimes,Business,Savings,0,1
+Private,42,25000,Bimonthly,Rented,1.3,No,0,Friend,18,13000,None,Rarely,None,None,0,0
+Public,129,62000,Monthly,Owned,4.4,Yes,3,Spouse,153,58000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,15,14000,Weekly,Rented,0.6,No,2,Sibling,27,16000,None,Never,Freelance,None,0,1
+Private,69,31000,Monthly,Owned,3.1,Yes,4,Parent,111,40000,Member,Sometimes,Business,Savings,0,0
+Public,192,74000,Monthly,Rented,2.8,No,1,Spouse,216,70000,Leader,Frequently,None,Insurance,0,0
+Private,39,23000,Biweekly,Owned,6.5,Yes,5,Sibling,75,27000,Member,Sometimes,Freelance,Savings,0,1
+Private,54,28000,Monthly,Rented,1.6,No,2,Friend,30,17000,None,Rarely,None,None,0,0
+Public,165,69000,Monthly,Owned,5.3,Yes,3,Spouse,189,65000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,27,19000,Weekly,Rented,0.4,No,1,Parent,45,20000,None,Never,Business,None,0,1
+Private,75,32000,Bimonthly,Owned,4.7,Yes,4,Sibling,93,29000,Member,Sometimes,Freelance,Savings,0,0
+Public,207,77000,Monthly,Rented,3.2,No,2,Spouse,231,73000,Leader,Frequently,None,Insurance,0,0
+Private,33,22000,Monthly,Owned,8.1,Yes,6,Parent,87,39000,Member,Sometimes,Business,Savings,0,1
+Private,51,26000,Biweekly,Rented,1.1,No,0,Friend,24,14000,None,Rarely,None,None,0,0
+Public,138,63000,Monthly,Owned,5.9,Yes,3,Spouse,162,59000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0
+Private,21,17000,Weekly,Rented,0.8,No,2,Sibling,39,18000,None,Never,Freelance,None,0,1
+Private,66,30000,Monthly,Owned,3.4,Yes,4,Parent,102,41000,Member,Sometimes,Business,Savings,0,0
+Public,183,72000,Monthly,Rented,2.6,No,1,Spouse,207,68000,Leader,Frequently,None,Insurance,0,0
+Private,45,24000,Bimonthly,Owned,7.8,Yes,5,Sibling,81,28000,Member,Sometimes,Freelance,Savings,0,1
+Private,36,21000,Monthly,Rented,1.9,No,2,Friend,18,15000,None,Rarely,None,None,0,0
+Public,114,57000,Monthly,Owned,4.2,Yes,3,Spouse,138,53000,Multiple Leader,Frequently,OFW Remittance,Community Plan,0,0

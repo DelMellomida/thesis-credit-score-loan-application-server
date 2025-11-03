@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9003:8000
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DB_NAME=${MONGODB_DB_NAME}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - CLIENT_URL=${CLIENT_URL}
+    image: credit_score_server:latest
+    container_name: credit_score_server-container
+    # Mounting logs directory 
+    volumes:
+      - ./logs:/app/logs
+      - ./models:/app/models
+    # depends_on:
+    #   - tika
+    networks:
+      - credit_score_net
+
+networks:
+  credit_score_net:
+    driver: bridge

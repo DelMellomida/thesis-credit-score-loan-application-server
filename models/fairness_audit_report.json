@@ -1,0 +1,57 @@
+{
+  "audit_date": "2025-10-29 06:02:56",
+  "sensitive_features_audited": [
+    "Paluwagan_Participation",
+    "Has_Community_Role",
+    "Household_Head"
+  ],
+  "fairness_threshold": 0.05,
+  "results": {
+    "Paluwagan_Participation": {
+      "needs_mitigation": true,
+      "demographic_parity_difference": {
+        "original": 0.1492203535214288,
+        "mitigated": 0.011622113400756778
+      },
+      "equalized_odds_difference": {
+        "original": 0.29703326341024877,
+        "mitigated": 0.08725402057736492
+      },
+      "performance_impact": {
+        "accuracy": -0.12390000000000001,
+        "precision": -0.14970502097941485,
+        "recall": 0.12008281573498966,
+        "f1_score": -0.0397643022974043
+      }
+    },
+    "Has_Community_Role": {
+      "needs_mitigation": true,
+      "demographic_parity_difference": {
+        "original": 0.03297226361371115,
+        "mitigated": 0.015569244891622758
+      },
+      "equalized_odds_difference": {
+        "original": 0.10477178423236513,
+        "mitigated": 0.019815937865730437
+      },
+      "performance_impact": {
+        "accuracy": -0.133,
+        "precision": -0.09888710433929818,
+        "recall": 0.3364389233954451,
+        "f1_score": 0.04754699899363973
+      }
+    },
+    "Household_Head": {
+      "needs_mitigation": false,
+      "demographic_parity_difference": {
+        "original": 0.006944313601433966,
+        "mitigated": null
+      },
+      "equalized_odds_difference": {
+        "original": 0.03942314287674051,
+        "mitigated": null
+      },
+      "performance_impact": null
+    }
+  }
+}
