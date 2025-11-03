@@ -1,9 +1,9 @@
 # torch Optional (uncomment if using PyTorch)
 
 # Core FastAPI and Server
-fastapi==0.110.0
-uvicorn[standard]==0.24.0
-python-multipart==0.0.6
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.20
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
@@ -11,46 +11,45 @@ passlib[bcrypt]==1.7.4
 python-decouple==3.8
 
 # Database - MongoDB
-motor==3.3.2
-pymongo==4.6.0
-beanie==1.23.6
+motor==3.6.0
+pymongo==4.9.1
+beanie==1.27.0
 
 # Data Processing & Validation
-pydantic==2.5.2
-pydantic-settings==2.1.0
+pydantic==2.11.7
+pydantic-settings==2.7.1
+pydantic[email]==2.11.7
 
 # OpenRouter/LLM Integration (if used in ai_service.py)
 # openai==1.6.1
 httpx==0.28.1
-aiohttp==3.9.1
+aiohttp==3.11.11
 
 # Utilities
-requests==2.31.0
+requests==2.32.3
 
 # Performance & Optimization
-orjson==3.9.10
+orjson==3.10.12
 
 # Compatibility for async libraries
 anyio==4.8.0
 
 # Build dependencies for Python 3.12+
-setuptools>=69.0.0
-wheel>=0.42.0
+setuptools>=75.0.0
+wheel>=0.45.0
 
-pydantic[email]==2.5.2
+joblib==1.4.2
 
-joblib==1.3.2
-
-pandas==2.1.4
+pandas==2.2.3
 
 google-generativeai==0.8.5
 python-dotenv==1.0.1
 
-bcrypt==4.0.1
+bcrypt==4.2.1
 
 scikit-learn==1.6.1
 
-supabase==2.22.0
+supabase==2.23.0
 
 aiofiles==25.1.0
 
