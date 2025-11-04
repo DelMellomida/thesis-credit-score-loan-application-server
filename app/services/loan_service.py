@@ -177,15 +177,32 @@ class LoanApplicationService:
         self, 
         skip: int = 0, 
         limit: int = 100, 
-        loan_officer_id: Optional[str] = None
+        loan_officer_id: Optional[str] = None,
+        status: Optional[str] = None,
+        search: Optional[str] = None
     ) -> Dict[str, Any]:
         try:
-            logger.info(f"Retrieving loan applications (skip: {skip}, limit: {limit}, officer: {loan_officer_id})")
+            logger.info(f"Retrieving loan applications (skip: {skip}, limit: {limit}, officer: {loan_officer_id}, status: {status}, search: {search})")
             
             # Build base query
             query = {}
             if loan_officer_id:
                 query["loan_officer_id"] = loan_officer_id
+                
+            # Add status filter if provided
+            if status and status.lower() != 'all':
+                query["status"] = status.title()  # Convert to title case to match enum values
+                
+            # Add search filter if provided
+            if search:
+                # Use MongoDB $or to search across multiple fields
+                search_regex = {"$regex": search, "$options": "i"}  # case-insensitive search
+                query["$or"] = [
+                    {"applicant_info.full_name": search_regex},
+                    {"applicant_info.email": search_regex},
+                    {"applicant_info.job": search_regex},
+                    {"model_input_data.Employment_Sector": search_regex}
+                ]
             
             try:
                 # Get total count
@@ -245,10 +262,11 @@ class LoanApplicationService:
                 raise RuntimeError(f"Data formatting failed: {str(e)}")
             
             logger.info(f"Successfully formatted {len(formatted_applications)} applications")
-            # Get counts for all applications, not just the current page
-            all_applications = await LoanApplication.find(query).to_list()
+            # Calculate counts from all applications without filters
+            base_query = {"loan_officer_id": loan_officer_id} if loan_officer_id else {}
+            all_applications = await LoanApplication.find(base_query).to_list()
             status_counts = {
-                "total": total,
+                "total": len(all_applications),
                 "approved": len([a for a in all_applications if a.status == "Approved"]),
                 "denied": len([a for a in all_applications if a.status == "Denied"]),
                 "cancelled": len([a for a in all_applications if a.status == "Cancelled"]),
