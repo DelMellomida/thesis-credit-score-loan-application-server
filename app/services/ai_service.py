@@ -23,10 +23,9 @@ except (ValueError, AttributeError) as e:
 
 
 class AIExplainabilityService:
-    """Service for generating AI-powered explanations of loan decisions."""
     
+    # Initialize the AI explainability service with the specified model
     def __init__(self, model_name: str = "gemini-2.5-flash"):
-        """Initialize the AI explainability service."""
         try:
             if not _is_service_configured:
                 raise RuntimeError("AI Service is not configured due to missing API key.")
@@ -37,16 +36,13 @@ class AIExplainabilityService:
             logger.error(f"Failed to initialize AI service model: {e}", exc_info=True)
             raise RuntimeError(f"AI service initialization failed: {e}")
 
+    # Generate comprehensive AI-powered explanations for loan application decisions
     async def generate_loan_explanation_async(
         self,
         application_data: LoanApplicationRequest,
         prediction_results: Dict[str, Any],
         feature_importance: Optional[Dict[str, float]] = None
     ) -> Dict[str, str]:
-        """
-        Generate comprehensive explanation of loan decision using AI asynchronously.
-        Returns a dictionary of explanations.
-        """
         try:
             analysis_data = self._prepare_analysis_data(
                 application_data, prediction_results, feature_importance
@@ -64,8 +60,8 @@ class AIExplainabilityService:
             error_msg = f"Error generating explanation: {e}"
             return {key: error_msg for key in ["technical_explanation", "business_explanation", "customer_explanation", "risk_factors", "recommendations"]}
 
+    # Call the AI model with the given prompt and return the generated text
     async def _call_ai_model(self, prompt: str) -> str:
-        """Call the AI model with error handling."""
         try:
             generation_config = GenerationConfig(
                 temperature=0.3
@@ -80,13 +76,13 @@ class AIExplainabilityService:
             logger.error(f"AI model call failed: {e}", exc_info=True)
             return f"Error generating explanation: {str(e)}"
 
+    # Prepare and structure application data for AI analysis
     def _prepare_analysis_data(
         self,
         application_data: LoanApplicationRequest,
         prediction_results: Dict[str, Any],
         feature_importance: Optional[Dict[str, float]] = None
     ) -> Dict[str, Any]:
-        """Prepare data for AI analysis."""
         app_dict = application_data.model_dump()
         monthly_salary = self._calculate_monthly_salary(
             app_dict.get("Net_Salary_Per_Cutoff", 0),
@@ -107,6 +103,7 @@ class AIExplainabilityService:
             }
         }
 
+    # Generate prompt for technical explanation of credit score analysis
     def _generate_technical_explanation(self, analysis_data: Dict[str, Any]) -> str:
         return (
             "You are an expert data analyst. Provide a bulleted analysis of this credit score in technical terms, not exceeding 100 words. "
@@ -123,6 +120,7 @@ class AIExplainabilityService:
             f"Analysis Data: {json.dumps(analysis_data, default=str)}"
         )
 
+    # Generate prompt for business-oriented explanation of credit score analysis
     def _generate_business_explanation(self, analysis_data: Dict[str, Any]) -> str:
         return (
             "You are a senior loan officer. Provide a bulleted analysis of this credit score in business terms, not exceeding 100 words. "
@@ -139,6 +137,7 @@ class AIExplainabilityService:
             f"Analysis Data: {json.dumps(analysis_data, default=str)}"
         )
 
+    # Generate prompt for customer-friendly explanation of credit score
     def _generate_customer_explanation(self, analysis_data: Dict[str, Any]) -> str:
         return (
             "You are explaining to a loan applicant. Provide a bulleted explanation of their credit score in simple terms, not exceeding 100 words. "
@@ -155,6 +154,7 @@ class AIExplainabilityService:
             f"Analysis Data: {json.dumps(analysis_data, default=str)}"
         )
 
+    # Generate prompt for risk factors analysis explanation
     def _generate_risk_factors_explanation(self, analysis_data: Dict[str, Any]) -> str:
         return (
             "You are a risk assessment expert. Provide a bulleted analysis of the default risk factors, not exceeding 100 words. "
@@ -171,6 +171,7 @@ class AIExplainabilityService:
             f"Analysis Data: {json.dumps(analysis_data, default=str)}"
         )
 
+    # Generate prompt for credit improvement recommendations
     def _generate_recommendations(self, analysis_data: Dict[str, Any]) -> str:
         return (
             "You are a financial advisor. Provide bulleted recommendations to improve this credit score, not exceeding 100 words. "
@@ -187,15 +188,17 @@ class AIExplainabilityService:
             f"Analysis Data: {json.dumps(analysis_data, default=str)}"
         )
 
+    # Calculate monthly salary from salary per cutoff and payment frequency
     def _calculate_monthly_salary(self, salary_per_cutoff: float, frequency: str) -> float:
         multipliers = {"Monthly": 1, "Biweekly": 2, "Weekly": 4.33}
         return salary_per_cutoff * multipliers.get(frequency, 1)
 
+    # Assess risk factors based on application data
     def _assess_risk_factors(self, app_data: Dict[str, Any]) -> Dict[str, Any]:
         return {"employment_stability": "High" if app_data.get("Employment_Tenure_Months", 0) > 24 else "Medium"}
 
+# Initialize and return an AI explainability service instance
 def initialize_ai_service() -> Optional[AIExplainabilityService]:
-    """Initialize the AI explainability service."""
     if not _is_service_configured:
         logger.error("AI service will not be initialized because it was not configured.")
         return None

@@ -8,6 +8,7 @@ from app.core.auth_dependencies import get_current_active_user
 router = APIRouter(prefix="/documents", tags=["Documents"])
 service = DocumentService()
 
+# Creates document records with uploaded files for an application
 @router.post("/", response_model=DocumentResponse)
 async def create_documents(
     application_id: str,
@@ -35,91 +36,13 @@ async def create_documents(
     doc = await service.create_documents(application_id, files, current_user["email"])
     return doc
 
+# Retrieves a document record by its ID
 @router.get("/{document_id}", response_model=DocumentResponse)
 async def get_document(document_id: str, current_user: dict = Depends(get_current_active_user)):
     doc = await service.get_document_by_id(document_id)
     return doc
 
-# @router.get("/application/{application_id}")
-# async def get_documents_by_application(application_id: str, current_user: dict = Depends(get_current_active_user)):
-#     # Add cache control headers for signed URLs
-#     from fastapi.responses import JSONResponse
-#     from fastapi.encoders import jsonable_encoder
-
-#     doc = await service.get_documents_by_application_id(application_id)
-#     response_data = {
-#         "brgy_cert_url": doc.brgy_cert_url,
-#         "e_signature_personal_url": doc.e_signature_personal_url,
-#         "payslip_url": doc.payslip_url,
-#         "company_id_url": doc.company_id_url,
-#         "proof_of_billing_url": doc.proof_of_billing_url,
-#         "e_signature_comaker_url": doc.e_signature_comaker_url,
-#         "profile_photo_url": doc.profile_photo_url,
-#         "valid_id_url": doc.valid_id_url
-#     }
-
-#     headers = {
-#         "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
-#         "Pragma": "no-cache",
-#         "Expires": "0"
-#     }
-    
-#     return JSONResponse(
-#         content=jsonable_encoder(response_data),
-#         headers=headers
-#     )
-
-# @router.get("/application/{application_id}/refresh-urls")
-# async def refresh_application_document_urls(
-#     application_id: str, 
-#     document_types: Optional[List[str]] = None,
-#     current_user: dict = Depends(get_current_active_user)
-# ):
-#     """
-#     Refresh signed URLs for an application's documents.
-#     Optionally specify document types to refresh only specific URLs.
-#     """
-#     from fastapi.responses import JSONResponse
-#     from fastapi.encoders import jsonable_encoder
-    
-#     doc = await service.get_documents_by_application_id(application_id)
-#     # If document_types specified, only return those URLs
-#     response = {}
-#     all_fields = [
-#         "brgy_cert_url", "e_signature_personal_url", "payslip_url",
-#         "company_id_url", "proof_of_billing_url", "e_signature_comaker_url",
-#         "profile_photo_url", "valid_id_url"
-#     ]
-    
-#     fields_to_refresh = document_types if document_types else all_fields
-    
-#     # Validate requested document types
-#     if document_types:
-#         invalid_types = [t for t in document_types if f"{t}_url" not in all_fields]
-#         if invalid_types:
-#             raise HTTPException(
-#                 status_code=400,
-#                 detail=f"Invalid document types: {', '.join(invalid_types)}"
-#             )
-    
-#     # Build response with only requested/available URLs
-#     for field in fields_to_refresh:
-#         url_field = f"{field}_url" if not field.endswith("_url") else field
-#         if hasattr(doc, url_field):
-#             response[url_field] = getattr(doc, url_field)
-
-#     # Add cache control headers
-#     headers = {
-#         "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
-#         "Pragma": "no-cache",
-#         "Expires": "0"
-#     }
-    
-#     return JSONResponse(
-#         content=jsonable_encoder(response),
-#         headers=headers
-#     )
-
+# Updates existing document fields with new uploaded files
 @router.put("/{document_id}", response_model=DocumentResponse)
 async def update_documents(
     document_id: str,
@@ -147,34 +70,30 @@ async def update_documents(
     doc = await service.update_documents(document_id, files, current_user["email"])
     return doc
 
+# Deletes a document and all its associated files
 @router.delete("/{document_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_documents(document_id: str, current_user: dict = Depends(get_current_active_user)):
     await service.delete_documents(document_id)
     return {"detail": "Document deleted"}
 
+# Deletes a specific file field from an application's documents
 @router.delete("/application/{application_id}/file/{field}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_application_file(
     application_id: str, 
     field: str, 
     current_user: dict = Depends(get_current_active_user)
 ):
-    """Delete a specific file from an application's documents"""
-    # Get the document record for this application
     doc = await service.get_documents_by_application_id(application_id)
     if not doc:
         raise HTTPException(status_code=404, detail="Application documents not found")
 
-    # Get the current file path from the URL
     current_url = getattr(doc, field, None)
     if not current_url:
-        # If no file exists, just return success
         return {"detail": f"No {field} to delete"}
 
-    # Delete the file from storage
     file_path = service._extract_path_from_url(current_url)
     await service._delete_file_from_supabase(file_path)
 
-    # Update the document record
     setattr(doc, field, None)
     if doc.file_metadata and field in doc.file_metadata:
         del doc.file_metadata[field]
@@ -184,12 +103,13 @@ async def delete_application_file(
 
     return {"detail": f"{field} deleted"}
 
+# Refreshes all signed URLs for a document by ID
 @router.get("/{document_id}/refresh", response_model=DocumentResponse)
 async def refresh_signed_urls(document_id: str, current_user: dict = Depends(get_current_active_user)):
     doc = await service.get_document_by_id(document_id)
     return doc
 
-
+# Uploads or updates documents for an application without creating duplicates
 @router.post("/", response_model=DocumentResponse)
 async def create_or_update_documents(
     application_id: str,
@@ -203,10 +123,6 @@ async def create_or_update_documents(
     eSignatureCoMaker: Optional[UploadFile] = File(None),
     current_user: dict = Depends(get_current_active_user)
 ):
-    """
-    Upload or update documents for an application.
-    Always updates existing document if found, never creates duplicates.
-    """
     files = {
         "profile_photo": profilePhoto,
         "valid_id": validId,
@@ -219,39 +135,32 @@ async def create_or_update_documents(
     }
     files = {k: v for k, v in files.items() if v}
     
-    # Always try to update - the service will create if needed
     doc = await service.update_or_create_documents(application_id, files, current_user["email"])
     
     return doc
 
+# Refreshes signed URLs for specific or all documents with enhanced cache control
 @router.get("/application/{application_id}/refresh-urls")
 async def refresh_application_document_urls(
     application_id: str, 
     document_types: Optional[str] = None,
-    t: Optional[str] = None,  # Timestamp for cache busting
-    nonce: Optional[str] = None,  # Additional cache busting parameter
-    v: Optional[str] = None,  # Version parameter
+    t: Optional[str] = None,
+    nonce: Optional[str] = None,
+    v: Optional[str] = None,
     current_user: dict = Depends(get_current_active_user)
 ):
-    """
-    Refresh signed URLs for an application's documents with enhanced cache control.
-    Optionally specify document types (comma-separated) to refresh only specific URLs.
-    """
     from fastapi.responses import JSONResponse
     from fastapi.encoders import jsonable_encoder
     from datetime import datetime, timedelta
     
-    # Parse document_types if provided
     requested_types = document_types.split(',') if document_types else None
     
-    # Generate response timestamp and version
     timestamp = datetime.utcnow()
     response_version = v or timestamp.timestamp()
     
     doc = await service.get_documents_by_application_id(application_id)
     
     if not doc:
-        # Return empty URLs with cache control
         empty_response = {
             "brgy_cert_url": None,
             "e_signature_personal_url": None,
@@ -283,7 +192,6 @@ async def refresh_application_document_urls(
             headers=headers
         )
     
-    # Map of document types to field names
     field_mapping = {
         "brgy_cert": "brgy_cert_url",
         "e_signature_personal": "e_signature_personal_url",
@@ -295,11 +203,9 @@ async def refresh_application_document_urls(
         "valid_id": "valid_id_url"
     }
     
-    # Build response with only requested/available URLs
     response = {}
     
     if requested_types:
-        # Only return requested document types
         for doc_type in requested_types:
             field_name = field_mapping.get(doc_type)
             if field_name and hasattr(doc, field_name):
@@ -307,14 +213,12 @@ async def refresh_application_document_urls(
                 if url:
                     response[field_name] = url
     else:
-        # Return all URLs
         for field_name in field_mapping.values():
             if hasattr(doc, field_name):
                 url = getattr(doc, field_name)
                 if url:
                     response[field_name] = url
 
-    # Add cache control headers
     headers = {
         "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
         "Pragma": "no-cache",
@@ -326,15 +230,14 @@ async def refresh_application_document_urls(
         headers=headers
     )
 
+# Retrieves all document URLs for an application with cache control
 @router.get("/application/{application_id}")
 async def get_documents_by_application(application_id: str, current_user: dict = Depends(get_current_active_user)):
-    """Get all document URLs for an application"""
     from fastapi.responses import JSONResponse
     from fastapi.encoders import jsonable_encoder
 
     doc = await service.get_documents_by_application_id(application_id)
     
-    # Return empty URLs if no document exists
     if not doc:
         response_data = {
             "brgy_cert_url": None,

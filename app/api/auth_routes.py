@@ -1,4 +1,3 @@
-# app/routes/auth_routes.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Dict
@@ -14,22 +13,22 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
+# Registers a new user account with email and password
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup_user(user_data: UserCreate) -> UserResponse:
     try:
         created_user = await auth_service.register_user(user_data)
         return UserResponse(**created_user)
     except HTTPException:
-        # Re-raise HTTPExceptions from the service layer
         raise
     except Exception as e:
-        # Log the actual error for debugging but don't expose it
         print(f"Unexpected error during signup: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during registration"
         )
 
+# Demo signup endpoint accepting individual parameters instead of a model
 @router.post("/signup-demo", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup_user_demo(
     email: EmailStr,
@@ -42,20 +41,18 @@ async def signup_user_demo(
         created_user = await auth_service.register_user(user_data)
         return UserResponse(**created_user)
     except HTTPException:
-        # Re-raise HTTPExceptions from the service layer
         raise
     except Exception as e:
-        # Log the actual error for debugging but don't expose it
         print(f"Unexpected error during signup: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during registration"
         )
 
+# Authenticates user credentials and returns an access token
 @router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
 async def login_user(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
     try:
-        # Create a simple data class for the login data
         class LoginData:
             def __init__(self, email: str, password: str):
                 self.email = email
@@ -77,6 +74,7 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
             detail="An unexpected error occurred during login"
         )
 
+# Retrieves the authenticated user's profile information
 @router.get("/me", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_current_user_info(current_user: dict = Depends(get_current_user)) -> UserResponse:
     try:
@@ -90,6 +88,7 @@ async def get_current_user_info(current_user: dict = Depends(get_current_user)) 
             detail="An unexpected error occurred while fetching user information"
         )
 
+# Generates a new access token for the authenticated user
 @router.post("/refresh", response_model=Token, status_code=status.HTTP_200_OK)
 async def refresh_token(current_user: dict = Depends(get_current_user)) -> Token:
     try:
@@ -106,24 +105,3 @@ async def refresh_token(current_user: dict = Depends(get_current_user)) -> Token
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during token refresh"
         )
-
-# # Add a simple test endpoint
-# @router.get("/test")
-# async def test_endpoint():
-#     """Simple test endpoint to verify router is working"""
-#     return {"message": "Auth router is working!"}
-
-# # Add a debug endpoint
-# @router.get("/debug")
-# async def debug_auth():
-#     return {
-#         "message": "Auth debug endpoint",
-#         "available_routes": [
-#             "/auth/signup (POST)",
-#             "/auth/login (POST)", 
-#             "/auth/me (GET)",
-#             "/auth/refresh (POST)",
-#             "/auth/test (GET)",
-#             "/auth/debug (GET)"
-#         ]
-#     }

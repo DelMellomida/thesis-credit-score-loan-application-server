@@ -6,18 +6,14 @@ from app.core.supabase_client import get_supabase_client
 
 logger = logging.getLogger(__name__)
 
-# Initialize Supabase client once for document operations
 supabase_client = get_supabase_client()
 
+# Processes document file uploads to Supabase storage and returns their URLs with metadata
 async def process_document_updates(
     application_id: str,
     document_files: Dict[str, UploadFile],
     current_user: Dict[str, Any]
 ) -> Dict[str, Optional[str]]:
-    """
-    Process document file updates for a loan application.
-    Uploads files to Supabase storage and returns the URLs.
-    """
     try:
         logger.info(f"Processing document updates for application {application_id}")
         
@@ -29,23 +25,18 @@ async def process_document_updates(
                 continue
                 
             try:
-                # Read file content
                 file_content = await file.read()
                 
-                # Generate storage path
                 file_name = f"{application_id}/{doc_type}/{file.filename}"
                 
-                # Upload to Supabase
                 response = storage_client.upload(
                     path=file_name,
                     file=file_content,
                     file_options={"content-type": file.content_type}
                 )
                 
-                # Get public URL
                 url = storage_client.get_public_url(file_name)
                 
-                # Map storage field names to database field names
                 field_mapping = {
                     'profile_photo': 'profile_photo_url',
                     'valid_id': 'valid_id_url',
@@ -57,10 +48,8 @@ async def process_document_updates(
                     'e_signature_comaker': 'e_signature_comaker_url'
                 }
                 
-                # Store URL in results
                 document_urls[field_mapping[doc_type]] = url
                 
-                # Store metadata
                 document_urls.setdefault('file_metadata', {})
                 document_urls['file_metadata'][doc_type] = {
                     'original_name': file.filename,
@@ -77,7 +66,7 @@ async def process_document_updates(
                 document_urls[field_mapping[doc_type]] = None
                 
             finally:
-                await file.seek(0)  # Reset file pointer
+                await file.seek(0)
         
         return document_urls
         

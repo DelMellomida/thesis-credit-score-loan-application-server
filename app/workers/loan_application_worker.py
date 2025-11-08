@@ -14,20 +14,17 @@ from fastapi import HTTPException, UploadFile
 
 logger = logging.getLogger(__name__)
 
+# Orchestrates the complete loan application creation workflow with prediction and document handling
 async def process_loan_application(
     request_data,
     document_files: Dict[str, Optional[UploadFile]],
     current_user: Dict,
     service: LoanApplicationService
 ) -> Dict[str, Any]:
-    """
-    Orchestrates the full loan application creation process.
-    """
     try:
         logger.info(f"Starting loan application creation process for user: {current_user['email']}")
         loan_officer_id = current_user["id"]
         
-        # Convert data models with error handling
         try:
             applicant_info = convert_applicant_info(request_data.applicant_info)
             comaker_info = convert_comaker_info(request_data.comaker_info)
@@ -53,10 +50,8 @@ async def process_loan_application(
                 detail=f"Error creating loan application: {str(create_error)}"
             )
         
-        # Run prediction
         prediction_result = await service._run_prediction(model_input_data)
         
-        # Get recommendations
         if service.recommendation_service:
             logger.info("Attempting to get loan recommendations")
             try:
@@ -64,11 +59,10 @@ async def process_loan_application(
                 logger.debug(f"Model input data for recommendations: {model_input_data.model_dump()}")
                 
                 recommended_products = service.recommendation_service.get_loan_recommendations(
-                    applicant_info=applicant_info,  # Use the converted model
+                    applicant_info=applicant_info,
                     model_input_data=model_input_data.model_dump()
                 )
                 
-                # IMPORTANT: Update the prediction_result with recommendations
                 prediction_result.loan_recommendation = recommended_products
                 
                 logger.info(f"Generated {len(recommended_products)} loan recommendations")
@@ -76,39 +70,31 @@ async def process_loan_application(
                     logger.warning("No loan recommendations were generated")
             except Exception as rec_error:
                 logger.error(f"Error generating loan recommendations: {rec_error}", exc_info=True)
-                # Don't raise the error, just log it as recommendations are optional
                 prediction_result.loan_recommendation = []
         
-        # Update the prediction result and AI explanation in loan application before saving
         loan_application.prediction_result = prediction_result
 
-        # Generate AI explanation
         ai_explanation = await service._generate_and_save_explanation(loan_application)
-        loan_application.ai_explanation = ai_explanation  # Add this line to save the AI explanation
+        loan_application.ai_explanation = ai_explanation
         
-        # Save loan application
         await loan_application.save()
         logger.info(f"Loan application created successfully with ID: {loan_application.application_id}, with {len(prediction_result.loan_recommendation)} recommendations")
         
-        # Handle document upload - THIS IS THE CRITICAL PART
         document_result = None
         document_upload_failed = False
         document_error_message = None
         
         try:
-            # Check if any files were actually provided
             valid_files = {k: v for k, v in document_files.items() if v is not None and v.filename}
             
             if valid_files:
                 logger.info(f"Starting document processing for application {loan_application.application_id}")
                 logger.info(f"Valid files to process: {list(valid_files.keys())}")
                 
-                # Log file details for debugging
                 for field, file in valid_files.items():
                     logger.debug(f"File {field}: name={file.filename}, "
                                f"content_type={file.content_type}")
                 
-                # Process documents with retries
                 max_retries = 3
                 retry_count = 0
                 last_error = None
@@ -136,7 +122,6 @@ async def process_loan_application(
                         last_error = doc_exc
                         logger.error(f"Document upload HTTPException: {doc_exc.status_code} - {doc_exc.detail}")
                         
-                        # Don't retry client errors (4xx)
                         if doc_exc.status_code < 500:
                             logger.error(f"Client error in document upload, not retrying: {doc_exc.detail}")
                             document_upload_failed = True
@@ -151,7 +136,7 @@ async def process_loan_application(
                             break
                             
                         logger.warning(f"Retrying document upload (attempt {retry_count + 1}/{max_retries})")
-                        await asyncio.sleep(1 * retry_count)  # Exponential backoff
+                        await asyncio.sleep(1 * retry_count)
                         
                     except Exception as doc_error:
                         last_error = doc_error
@@ -167,33 +152,24 @@ async def process_loan_application(
                         logger.warning(f"Retrying document upload after error (attempt {retry_count + 1}/{max_retries})")
                         await asyncio.sleep(1 * retry_count)
                 
-                # Check if upload ultimately failed
                 if document_upload_failed:
                     logger.error(f"Document upload failed for application {loan_application.application_id}: {document_error_message}")
-                    # Log the error but continue with the application
                     logger.warning(f"Document upload failed but continuing: {document_error_message}")
-                    document_result = None  # Clear document result in case of failure
+                    document_result = None
                     
             else:
                 logger.warning("No valid documents provided for application")
-                # Decide if you want to allow applications without documents
-                # If documents are required, uncomment the following:
-                # await loan_application.delete()
-                # raise HTTPException(status_code=400, detail="At least one document is required")
                 
         except HTTPException:
-            # Re-raise HTTP exceptions (already handled above)
             raise
         except Exception as e:
             logger.error(f"Unexpected error in document processing: {str(e)}", exc_info=True)
-            # Delete the loan application since document upload failed
             await loan_application.delete()
             raise HTTPException(
                 status_code=500,
                 detail=f"Document processing failed: {str(e)}"
             )
         
-        # Build and return response
         response = build_loan_application_response(
             loan_application,
             prediction_result,
@@ -207,7 +183,6 @@ async def process_loan_application(
         return response
         
     except HTTPException:
-        # Re-raise HTTP exceptions
         raise
     except Exception as e:
         logger.error(f"Error in loan application worker: {e}", exc_info=True)

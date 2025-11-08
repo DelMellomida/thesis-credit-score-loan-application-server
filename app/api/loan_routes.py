@@ -35,9 +35,9 @@ from app.core.auth_dependencies import get_current_user, get_current_active_user
 from app.workers.loan_application_worker import process_loan_application
 from app.schemas.document_schema import DocumentUploadRequest
 
-# Configure logging
 logger = logging.getLogger(__name__)
 
+# Returns the loan application service instance or raises an error if unavailable
 def get_loan_application_service() -> LoanApplicationService:
     if loan_application_service is None:
         logger.error("Loan application service is not initialized")
@@ -50,6 +50,7 @@ def get_loan_application_service() -> LoanApplicationService:
 
 router = APIRouter(prefix="/loans", tags=["Loan Applications"])
 
+# Creates a new loan application with prediction, recommendations, and document uploads
 @router.post("/applications", response_model=Dict[str, Any], status_code=status.HTTP_201_CREATED)
 async def create_loan_application(
     request_data: str = Form(...),
@@ -74,17 +75,14 @@ async def create_loan_application(
                 detail=f"Invalid JSON format: {str(e)}"
             )
             
-        # Ensure job field is set to a valid enum value
         if "applicant_info" in data_dict and "job" in data_dict["applicant_info"]:
             if data_dict["applicant_info"]["job"] == "Government Employee":
                 data_dict["applicant_info"]["job"] = "Others"
                 
-        # Ensure Paluwagan_Participation is correctly spelled
         if "model_input_data" in data_dict and "Paluwagan_Participation" in data_dict["model_input_data"]:
             if data_dict["model_input_data"]["Paluwagan_Participation"] == "Rarel":
                 data_dict["model_input_data"]["Paluwagan_Participation"] = "Rarely"
 
-        # Convert the dict to a Pydantic model
         try:
             parsed_request_data = FullLoanApplicationRequest(**data_dict)
         except Exception as e:
@@ -94,7 +92,6 @@ async def create_loan_application(
                 detail=f"Invalid request data format: {str(e)}"
             )
 
-        # Only include files that were actually uploaded
         document_files = {}
         if profilePhoto:
             document_files["profile_photo"] = profilePhoto
@@ -128,209 +125,7 @@ async def create_loan_application(
             detail="An error occurred while processing the application"
         )
 
-# @router.post("/applications/demo", response_model=Dict[str, Any], status_code=status.HTTP_201_CREATED)
-# async def create_demo_loan_application(
-#     # Applicant Info
-#     applicant_name: str,
-#     contact_number: str,
-#     address: str,
-#     salary: str,
-#     job: str,
-    
-#     # Co-maker Info
-#     comaker_name: str,
-#     comaker_contact: str,
-    
-#     # Key Model Inputs
-#     employment_sector: EmploymentSectorEnum,
-#     employment_tenure_months: int,
-#     net_salary_per_cutoff: float,
-#     salary_frequency: SalaryFrequencyEnum,
-#     housing_status: HousingStatusEnum,
-#     years_at_current_address: float,
-#     household_head: YesNoEnum,
-#     number_of_dependents: int,
-#     comaker_relationship: ComakerRelationshipEnum,
-#     comaker_employment_tenure_months: int,
-#     comaker_net_salary_per_cutoff: float,
-#     has_community_role: CommunityRoleEnum,
-#     paluwagan_participation: PaluwaganParticipationEnum,
-#     other_income_source: OtherIncomeSourceEnum,
-#     disaster_preparedness: DisasterPreparednessEnum,
-#     is_renewing_client: int = 0,
-#     grace_period_usage_rate: float = 0.0,
-#     late_payment_count: int = 0,
-#     had_special_consideration: int = 0,
-    
-#     current_user: Dict = Depends(get_current_active_user),
-#     service: LoanApplicationService = Depends(get_loan_application_service)
-# ):
-#     """
-#     Demo endpoint for loan application creation - all fields as individual parameters.
-#     This will show each field separately in Swagger UI for easy testing and demo purposes.
-#     Perfect for presentations where you want to fill out fields one by one.
-#     """
-#     try:
-#         logger.info("Starting demo loan application creation")
-        
-#         # Get loan officer ID from authenticated user
-#         loan_officer_id = current_user["id"]
-        
-#         # Reconstruct the nested models from individual parameters
-#         applicant_info = ApplicantInfo(
-#             full_name=applicant_name,
-#             contact_number=contact_number,
-#             address=address,
-#             salary=salary,
-#             job=job
-#         )
-        
-#         comaker_info = CoMakerInfo(
-#             full_name=comaker_name,
-#             contact_number=comaker_contact
-#         )
-        
-#         model_input_data = LoanApplicationRequest(
-#             Employment_Sector=employment_sector,
-#             Employment_Tenure_Months=employment_tenure_months,
-#             Net_Salary_Per_Cutoff=net_salary_per_cutoff,
-#             Salary_Frequency=salary_frequency,
-#             Housing_Status=housing_status,
-#             Years_at_Current_Address=years_at_current_address,
-#             Household_Head=household_head,
-#             Number_of_Dependents=number_of_dependents,
-#             Comaker_Relationship=comaker_relationship,
-#             Comaker_Employment_Tenure_Months=comaker_employment_tenure_months,
-#             Comaker_Net_Salary_Per_Cutoff=comaker_net_salary_per_cutoff,
-#             Has_Community_Role=has_community_role,
-#             Paluwagan_Participation=paluwagan_participation,
-#             Other_Income_Source=other_income_source,
-#             Disaster_Preparedness=disaster_preparedness,
-#             Is_Renewing_Client=is_renewing_client,
-#             Grace_Period_Usage_Rate=grace_period_usage_rate,
-#             Late_Payment_Count=late_payment_count,
-#             Had_Special_Consideration=had_special_consideration
-#         )
-        
-#         # Create full request object
-#         full_request = FullLoanApplicationRequest(
-#             applicant_info=applicant_info,
-#             comaker_info=comaker_info,
-#             model_input_data=model_input_data
-#         )
-        
-#         # Convert to database models
-#         try:
-#             db_applicant_info = DbApplicantInfo(**applicant_info.model_dump())
-#             db_comaker_info = DbCoMakerInfo(
-#                 full_name=comaker_info.full_name,
-#                 contact_number=comaker_info.contact_number
-#             )
-#             db_model_input_data = ModelInputData(**model_input_data.model_dump())
-#         except Exception as e:
-#             logger.error(f"Error converting to database models: {e}")
-#             raise ValueError(f"Error in data conversion: {e}")
-        
-#         # Create the loan application
-#         try:
-#             loan_application = LoanApplication(
-#                 loan_officer_id=loan_officer_id,
-#                 applicant_info=db_applicant_info,
-#                 comaker_info=db_comaker_info,
-#                 model_input_data=db_model_input_data
-#             )
-#         except Exception as e:
-#             logger.error(f"Error creating loan application: {e}")
-#             raise ValueError(f"Error creating loan application: {e}")
-        
-#         # Run prediction using the service
-#         try:
-#             logger.info("Running prediction for demo loan application")
-#             prediction_result = await service._run_prediction(db_model_input_data)
-#             loan_application.prediction_result = prediction_result
-#         except Exception as e:
-#             logger.error(f"Error during prediction: {e}")
-#             raise RuntimeError(f"Prediction failed: {e}")
-        
-#         # Get loan recommendations using the recommendation service
-#         try:
-#             recommended_products = []
-#             if service.recommendation_service:
-#                 recommended_products = service.recommendation_service.get_loan_recommendations(
-#                     applicant_info=applicant_info,
-#                     model_input_data=model_input_data.model_dump()
-#                 )
-#                 logger.info("Recommended products are created")
-#             else:
-#                 logger.warning("Recommendation service not available")
-#         except Exception as e:
-#             logger.error(f"Error during recommending products: {e}")
-#             raise ValueError(f"Recommending products failed: {e}")
-        
-#         try:
-#             ai_explanation = await service._generate_and_save_explanation(loan_application)
-#         except Exception as e:
-#             logger.error(f"Error generating AI explanation: {e}")
-#             raise RuntimeError(f"AI explanation generation failed: {e}")
-        
-#         # Save to database
-#         try:
-#             await loan_application.save()
-#         except Exception as e:
-#             logger.error(f"Error saving to database: {e}")
-#             raise RuntimeError(f"Database error: {e}")
-        
-#         logger.info("Demo loan application created successfully")
-        
-#         return {
-#             "message": "Demo loan application created successfully",
-#             "application_id": str(loan_application.application_id),
-#             "timestamp": loan_application.timestamp.isoformat(),
-#             "status": "created",
-#             "demo_mode": True,
-#             "prediction_result": {
-#                 "final_credit_score": prediction_result.final_credit_score,
-#                 "default": prediction_result.default,
-#                 "probability_of_default": prediction_result.probability_of_default,
-#                 "status": prediction_result.status
-#             },
-#             "recommended_products": recommended_products,
-#             "applicant_info": {
-#                 "full_name": applicant_info.full_name,
-#                 "contact_number": applicant_info.contact_number,
-#                 "address": applicant_info.address,
-#                 "salary": applicant_info.salary,
-#                 "job": applicant_info.job
-#             },
-#             "loan_officer_id": loan_application.loan_officer_id,
-#             "created_by": {
-#                 "email": current_user["email"],
-#                 "full_name": current_user["full_name"]
-#             },
-#             "ai_explanation": ai_explanation
-#         }
-        
-#     except ValueError as e:
-#         logger.error(f"Validation error during demo application creation: {e}")
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail=f"Invalid demo application data: {str(e)}"
-#         )
-#     except RuntimeError as e:
-#         logger.error(f"Runtime error during demo application creation: {e}")
-#         raise HTTPException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#             detail=str(e)
-#         )
-#     except Exception as e:
-#         logger.error(f"Unexpected error during demo application creation: {e}")
-#         import traceback
-#         logger.error(f"Full traceback: {traceback.format_exc()}")
-#         raise HTTPException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#             detail=f"Unexpected demo error: {str(e)}"
-#         )
-
+# Retrieves a loan application by its MongoDB ObjectId
 @router.get("/applications/id/{mongo_id}", response_model=Dict[str, Any])
 async def get_loan_application_by_id(
     mongo_id: str,
@@ -338,9 +133,6 @@ async def get_loan_application_by_id(
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Get loan application by MongoDB _id
-    """
     try:
         from bson import ObjectId
         loan_application = await LoanApplication.find_one({"_id": ObjectId(mongo_id)})
@@ -358,15 +150,12 @@ async def get_loan_application_by_id(
             "loan_officer_id": loan_application.loan_officer_id,
         }
         
-        # Add prediction result if available
         if loan_application.prediction_result:
             response["prediction_result"] = loan_application.prediction_result.model_dump()
             
-        # Add AI explanation if requested and available
         if include_ai_explanation and loan_application.ai_explanation:
             response["ai_explanation"] = loan_application.ai_explanation.model_dump()
             
-        # Get and add documents if available
         from app.database.models.document_model import ApplicationDocument
         documents = await ApplicationDocument.find_one(
             ApplicationDocument.application_id == str(loan_application.application_id)
@@ -395,6 +184,7 @@ async def get_loan_application_by_id(
             detail=f"Error retrieving loan application: {str(e)}"
         )
 
+# Retrieves a specific loan application by its UUID
 @router.get("/applications/{application_id}", response_model=Dict[str, Any])
 async def get_loan_application(
     application_id: UUID,
@@ -402,22 +192,16 @@ async def get_loan_application(
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Retrieve a specific loan application by ID.
-    Only accessible to authenticated users.
-    """
     try:
         loan_application = await service.get_loan_application(application_id)
         if not loan_application:
             raise HTTPException(status_code=404, detail="Loan application not found")
             
-        # Get associated documents
         from app.database.models.document_model import ApplicationDocument
         documents = await ApplicationDocument.find_one(
             ApplicationDocument.application_id == str(application_id)
         )
         
-        # Create the base response
         response = {
             "_id": {"$oid": str(loan_application.id)},
             "application_id": str(loan_application.application_id),
@@ -429,15 +213,12 @@ async def get_loan_application(
             "loan_officer_id": loan_application.loan_officer_id,
         }
         
-        # Include prediction result if available
         if loan_application.prediction_result:
             response["prediction_result"] = loan_application.prediction_result.model_dump()
             
-        # Include AI explanation if requested and available
         if include_ai_explanation and loan_application.ai_explanation:
             response["ai_explanation"] = loan_application.ai_explanation
             
-        # Include document URLs if available
         if documents:
             response["documents"] = {
                 "profile_photo_url": documents.profile_photo_url,
@@ -462,9 +243,10 @@ async def get_loan_application(
             
     return response
 
+# Updates loan application data and documents with optional reassessment
 @router.put("/applications/{application_id}", response_model=Dict[str, Any])
 async def update_loan_application(
-    application_id: str,  # Changed from UUID to str for MongoDB ObjectId
+    application_id: str,
     request_data: str = Form(...),
     profilePhoto: Optional[UploadFile] = File(None),
     validId: Optional[UploadFile] = File(None),
@@ -477,9 +259,6 @@ async def update_loan_application(
     current_user: Dict = Depends(get_current_active_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Update loan application data and handle document updates.
-    """
     try:
         try:
             data_dict = json.loads(request_data)
@@ -490,7 +269,6 @@ async def update_loan_application(
                 detail=f"Invalid JSON format: {str(e)}"
             )
         
-        # Get existing application
         application = await service.get_loan_application_by_mongo_id(application_id)
         if not application:
             raise HTTPException(
@@ -499,11 +277,9 @@ async def update_loan_application(
             )
 
         try:
-            # Clean and validate the update data
             update_data = {}
             
             if 'applicant_info' in data_dict:
-                # Merge with existing data to maintain required fields
                 current_applicant = application.applicant_info.model_dump()
                 current_applicant.update(data_dict['applicant_info'])
                 update_data['applicant_info'] = current_applicant
@@ -518,7 +294,6 @@ async def update_loan_application(
                 current_model_input.update(data_dict['model_input_data'])
                 update_data['model_input_data'] = current_model_input
 
-            # Handle document files if provided
             document_files = {}
             if profilePhoto:
                 document_files["profile_photo"] = profilePhoto
@@ -545,7 +320,6 @@ async def update_loan_application(
                 detail=f"Invalid update data structure: {str(e)}"
             )
 
-        # If there are document updates, process them
         if document_files:
             from app.workers.document_handler import process_document_updates
             document_urls = await process_document_updates(
@@ -554,7 +328,6 @@ async def update_loan_application(
                 current_user
             )
 
-            # Update document URLs in database
             from app.database.models.document_model import ApplicationDocument
             doc = await ApplicationDocument.find_one(
                 ApplicationDocument.application_id == str(application.application_id)
@@ -562,7 +335,6 @@ async def update_loan_application(
             if doc:
                 await doc.update({"$set": document_urls})
 
-        # Update application data and run reassessment only if we have data updates
         if update_data:
             updated_application = await service.update_loan_application(
                 application.application_id, 
@@ -570,7 +342,6 @@ async def update_loan_application(
                 rerun_assessment=True
             )
         else:
-            # If only files were updated, return the current application
             updated_application = application
 
         if not updated_application:
@@ -606,6 +377,7 @@ async def update_loan_application(
             detail=f"Error retrieving loan application: {str(e)}"
         )
 
+# Retrieves paginated loan applications with optional filtering
 @router.get("/applications", response_model=Dict[str, Any])
 async def get_loan_applications(
     skip: int = Query(default=0, ge=0, description="Number of records to skip"),
@@ -618,7 +390,6 @@ async def get_loan_applications(
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
     try:
-        # Use current user's ID if no specific loan officer ID is provided
         if loan_officer_id is None:
             loan_officer_id = current_user.get("id")
             if not loan_officer_id:
@@ -647,6 +418,7 @@ async def get_loan_applications(
             detail="An error occurred while retrieving applications"
         )
 
+# Retrieves loan applications created by the authenticated user
 @router.get("/my-applications", response_model=List[Dict[str, Any]])
 async def get_my_loan_applications(
     skip: int = Query(default=0, ge=0),
@@ -655,9 +427,6 @@ async def get_my_loan_applications(
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Retrieve loan applications created by the authenticated user.
-    """
     try:
         applications = await service.get_loan_applications(
             skip=skip,
@@ -665,11 +434,10 @@ async def get_my_loan_applications(
             loan_officer_id=current_user["id"]
         )
         
-        # Format response data
         response_data = []
         for app in applications:
             app_data = {
-                "_id": {"$oid": str(app.id)},  # Include MongoDB ObjectId
+                "_id": {"$oid": str(app.id)},
                 "application_id": str(app.application_id),
                 "timestamp": app.timestamp.isoformat(),
                 "applicant_name": app.applicant_info.full_name,
@@ -679,7 +447,6 @@ async def get_my_loan_applications(
                 "recommendation_count": len(app.prediction_result.loan_recommendation or []) if app.prediction_result else 0
             }
             
-            # Add AI explanation if requested and available
             if include_ai_explanation and hasattr(app, 'ai_explanation') and app.ai_explanation:
                 app_data["ai_explanation_summary"] = {
                     "has_explanation": True,
@@ -697,17 +464,14 @@ async def get_my_loan_applications(
             detail="An error occurred while retrieving applications"
         )
 
+# Updates the status of a loan application with validation
 @router.put("/applications/{application_id}/status")
 async def update_application_status(
-    application_id: str,  # Changed from UUID to str to accept MongoDB ObjectId
+    application_id: str,
     status_update: Dict[str, str],
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Update the status of a loan application.
-    Only accessible to authenticated users.
-    """
     try:
         new_status = status_update.get("status")
         
@@ -718,14 +482,11 @@ async def update_application_status(
                 detail="Status is required"
             )
         
-        # Validate status value using the enum (case-insensitive)
         try:
             logger.info("Validating requested status update")
-            # Convert input to title case to match enum values
             normalized_status = new_status.title()
             status_enum = ApplicationStatusEnum(normalized_status)
             logger.info("Status validation completed")
-            # Use the validated enum value
             new_status = status_enum.value
         except ValueError as e:
             logger.error(f"Invalid status value: {new_status}")
@@ -762,15 +523,13 @@ async def update_application_status(
             detail="An error occurred while updating the application status"
         )
 
+# Regenerates loan product recommendations for an existing application
 @router.post("/applications/{application_id}/regenerate-recommendations")
 async def regenerate_loan_recommendations(
     application_id: UUID,
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Regenerate loan recommendations for an existing application.
-    """
     try:
         recommendations = await service.regenerate_loan_recommendations(application_id)
         
@@ -796,31 +555,20 @@ async def regenerate_loan_recommendations(
             detail="An error occurred while regenerating recommendations"
         )
 
+# Deletes a loan application by its UUID
 @router.delete("/applications/{application_id}")
 async def delete_loan_application(
     application_id: UUID,
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
-    """
-    Delete a loan application by ID.
-    Only accessible to authenticated users.
-    """
     try:
-        # Optional: Check if user owns this application
         application = await service.get_loan_application(application_id)
         if not application:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Loan application with ID {application_id} not found"
             )
-        
-        # Optional authorization check
-        # if application.loan_officer_id != current_user["id"]:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_403_FORBIDDEN,
-        #         detail="You can only delete your own loan applications"
-        #     )
         
         deleted = await service.delete_loan_application(application_id)
         if not deleted:
@@ -832,7 +580,7 @@ async def delete_loan_application(
         return {
             "message": "Loan application deleted successfully",
             "application_id": str(application_id),
-            "deleted_at": "now"  # You might want to add actual timestamp
+            "deleted_at": "now"
         }
     
     except HTTPException:
@@ -844,11 +592,9 @@ async def delete_loan_application(
             detail="An error occurred while deleting the application"
         )
 
+# Returns the health status of the loan service
 @router.get("/health", tags=["Health Check"])
 async def health_check() -> Dict[str, str]:
-    """
-    Simple health check endpoint for the loan service.
-    """
     try:
         from datetime import datetime
         return {
@@ -863,15 +609,12 @@ async def health_check() -> Dict[str, str]:
             detail="Health check failed"
         )
 
+# Retrieves detailed status information about the loan application service
 @router.get("/service-status", tags=["Health Check"])
 async def get_service_status(
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ) -> Dict[str, Any]:
-    """
-    Get the current status of the loan application service.
-    Only accessible to authenticated users.
-    """
     try:
         logger.info("Retrieving loan service status")
         status_info = await service.get_service_status()

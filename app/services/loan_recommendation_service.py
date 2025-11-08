@@ -7,10 +7,12 @@ logger = logging.getLogger(__name__)
 
 
 class LoanRecommendationService:
+    # Initialize the loan recommendation service with available products
     def __init__(self):
         self.loan_products = LOAN_PRODUCTS_CATALOG
         logger.info("LoanRecommendationService initialized")
 
+    # Generate loan product recommendations based on applicant information and model data
     def get_loan_recommendations(
         self,
         applicant_info: ApplicantInfoSchema,
@@ -19,14 +21,12 @@ class LoanRecommendationService:
         try:
             logger.info(f"Generating loan recommendations for applicant: {applicant_info.full_name}")
             
-            # Get eligible products based on rules
             eligible_products = self._filter_eligible_products(applicant_info, model_input_data)
             
             if not eligible_products:
                 logger.warning("No eligible products found for applicant")
                 return []
             
-            # Calculate recommendations with financial analysis
             recommendations = self._calculate_recommendations(
                 eligible_products, 
                 applicant_info, 
@@ -40,6 +40,7 @@ class LoanRecommendationService:
             logger.error(f"Error generating loan recommendations: {e}")
             return []
 
+    # Filter loan products based on eligibility rules and applicant criteria
     def _filter_eligible_products(
         self, 
         applicant_info: ApplicantInfoSchema, 
@@ -61,21 +62,18 @@ class LoanRecommendationService:
             
             logger.info(f"Evaluating product: {product['product_name']}")
             
-            # Rule: Check if the product is for new or existing clients
             client_type_eligible = self._check_client_type_eligibility(rules, is_renewing)
             if not client_type_eligible:
                 logger.info(f"Product {product['product_name']} not eligible due to client type requirement: "
                          f"new_client_eligible={rules.get('is_new_client_eligible', True)}, is_renewing={is_renewing}")
                 continue
             
-            # Rule: Check employment sector
             sector_eligible = self._check_employment_sector_eligibility(rules, employment_sector)
             if not sector_eligible:
                 logger.info(f"Product {product['product_name']} not eligible due to sector requirement: "
                          f"allowed_sectors={rules.get('employment_sector', [])}, applicant_sector={employment_sector}")
                 continue
             
-            # Rule: Check specific job (if applicable)
             job_eligible = self._check_job_eligibility(rules, applicant_info)
             if not job_eligible:
                 logger.info(f"Product {product['product_name']} not eligible due to job requirement: "
@@ -90,19 +88,22 @@ class LoanRecommendationService:
         logger.info(f"Found {len(eligible_products)} eligible products")
         return eligible_products
 
+    # Check if product is available for client type (new or renewing)
     def _check_client_type_eligibility(self, rules: Dict[str, Any], is_renewing: bool) -> bool:
         return rules.get("is_new_client_eligible", True) or is_renewing
 
+    # Check if applicant's employment sector matches product requirements
     def _check_employment_sector_eligibility(self, rules: Dict[str, Any], employment_sector: str) -> bool:
 
         allowed_sectors = rules.get("employment_sector", [])
-        if not allowed_sectors:  # If no restriction, allow all
+        if not allowed_sectors:
             return True
         return employment_sector in allowed_sectors
 
+    # Check if applicant's job matches product-specific job requirements
     def _check_job_eligibility(self, rules: Dict[str, Any], applicant_info: ApplicantInfoSchema) -> bool:
         required_jobs = rules.get("job")
-        if not required_jobs:  # If no job requirement, allow all
+        if not required_jobs:
             return True
         
         applicant_job = getattr(applicant_info, 'job', None)
@@ -111,6 +112,7 @@ class LoanRecommendationService:
         
         return applicant_job in required_jobs
 
+    # Calculate and rank loan recommendations with financial analysis
     def _calculate_recommendations(
         self, 
         eligible_products: List[Dict[str, Any]], 
@@ -121,28 +123,23 @@ class LoanRecommendationService:
         net_salary_per_cutoff = model_input_data.get("Net_Salary_Per_Cutoff", 0)
         salary_frequency = model_input_data.get("Salary_Frequency", "Bimonthly")
         
-        # Calculate maximum affordable amortization (50% of net salary)
         max_affordable_amortization = net_salary_per_cutoff * 0.50
         
-        # Convert per-cutoff amortization to monthly
         cutoffs_per_month = 2 if salary_frequency in ["Biweekly", "Bimonthly"] else 1
         max_affordable_monthly_amortization = max_affordable_amortization * cutoffs_per_month
         
         logger.info(f"Max affordable amortization per cutoff: {max_affordable_amortization}")
         
         for product in eligible_products:
-            # Calculate maximum loan principal for this product
             max_principal = self._calculate_max_loan_principal(
                 max_amortization=max_affordable_monthly_amortization,
                 monthly_interest_rate=product["interest_rate_monthly"],
                 term_in_months=product["max_term_months"]
             )
             
-            # Apply product limits
             final_loanable_amount = min(max_principal, product["max_loanable_amount"])
             final_loanable_amount = max(0, final_loanable_amount)
             
-            # Calculate suitability score
             suitability_score = self._calculate_suitability_score(
                 product, 
                 final_loanable_amount, 
@@ -150,19 +147,16 @@ class LoanRecommendationService:
                 model_input_data
             )
             
-            # Only include products with meaningful loan amounts
             if final_loanable_amount > 0:
                 ranked_products.append({
                     "product_data": product,
                     "suitability_score": suitability_score,
-                    "final_loanable_amount": round(final_loanable_amount, -2),  # Round to nearest 100
+                    "final_loanable_amount": round(final_loanable_amount, -2),
                     "estimated_amortization_per_cutoff": round(max_affordable_amortization, 2),
                 })
         
-        # Sort by score, highest first
         sorted_products = sorted(ranked_products, key=lambda x: x["suitability_score"], reverse=True)
         
-        # Convert to RecommendedProducts schema
         recommendations = []
         for i, item in enumerate(sorted_products):
             prod_data = item["product_data"]
@@ -181,6 +175,7 @@ class LoanRecommendationService:
         
         return recommendations
 
+    # Calculate maximum loan principal based on affordable amortization and loan terms
     def _calculate_max_loan_principal(
         self, 
         max_amortization: float, 
@@ -189,17 +184,15 @@ class LoanRecommendationService:
     ) -> float:
         rate = monthly_interest_rate / 100
         
-        # Handle edge case where rate is 0
         if rate == 0:
             return max_amortization * term_in_months
         
-        # Using the present value of annuity formula
-        # PV = PMT * [(1 - (1 + r)^(-n)) / r]
         discount_factor = (1 - (1 + rate) ** (-term_in_months)) / rate
         principal = max_amortization * discount_factor
         
         return principal
 
+    # Calculate product suitability score based on multiple factors
     def _calculate_suitability_score(
         self, 
         product: Dict[str, Any], 
@@ -210,28 +203,24 @@ class LoanRecommendationService:
         score = 100
         is_renewing = model_input_data.get("Is_Renewing_Client") == 1
         
-        # Lower interest rate increases score
         score -= product["interest_rate_monthly"] * 10
         
-        # Higher potential loan amount increases score
         score += (final_loanable_amount / 10000)
         
-        # Longer term increases score (more flexibility)
         score += product["max_term_months"] / 12
         
-        # Major bonus for specialized loans that match the job
         rules = product["eligibility_rules"]
         if (rules.get("job") and 
             hasattr(applicant_info, 'job') and 
             applicant_info.job in rules["job"]):
             score += 20
         
-        # Bonus for existing client products if applicable
         if not rules.get("is_new_client_eligible", True) and is_renewing:
             score += 10
         
-        return max(0, int(score))  # Ensure non-negative score
+        return max(0, int(score))
 
+    # Get the current status and health of the recommendation service
     def get_service_status(self) -> Dict[str, Any]:
         try:
             return {
@@ -248,9 +237,9 @@ class LoanRecommendationService:
                 "error": str(e)
             }
 
+    # Add a new loan product to the catalog
     def add_product(self, product: Dict[str, Any]) -> bool:
         try:
-            # Validate product structure (basic validation)
             required_fields = ["product_name", "interest_rate_monthly", "max_term_months", 
                              "max_loanable_amount", "eligibility_rules"]
             
@@ -266,6 +255,7 @@ class LoanRecommendationService:
             logger.error(f"Error adding product: {e}")
             return False
 
+    # Remove a loan product from the catalog by name
     def remove_product(self, product_name: str) -> bool:
         try:
             original_length = len(self.loan_products)
@@ -283,6 +273,7 @@ class LoanRecommendationService:
             return False
 
 
+# Initialize and return a loan recommendation service instance
 def initialize_loan_recommendation_service() -> Optional[LoanRecommendationService]:
     try:
         logger.info("Initializing LoanRecommendationService...")
@@ -296,5 +287,4 @@ def initialize_loan_recommendation_service() -> Optional[LoanRecommendationServi
         return None
 
 
-# Initialize the service
 loan_recommendation_service = initialize_loan_recommendation_service()

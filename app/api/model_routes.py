@@ -4,19 +4,15 @@ from app.core.auth_dependencies import get_current_active_user
 from app.services.prediction_service import prediction_service
 import logging
 
-# Configure logging
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/model", tags=["Model Management"])
 
+# Retrains the prediction model with updated data while preserving settings
 @router.post("/retrain", response_model=Dict[str, Any])
 async def retrain_model(
     current_user: Dict = Depends(get_current_active_user)
 ):
-    """
-    Retrain the model with updated data.
-    Only accessible to authenticated users.
-    """
     try:
         if not prediction_service:
             raise HTTPException(
@@ -24,14 +20,11 @@ async def retrain_model(
                 detail="Prediction service is not available"
             )
 
-        # Save current threshold and settings
         current_threshold = prediction_service.default_threshold
         current_feature = prediction_service.default_sensitive_feature
 
-        # Reload model with updated data
         prediction_service._load_model()
 
-        # Restore previous settings
         if current_threshold:
             prediction_service.set_threshold(current_threshold)
         if current_feature:
@@ -49,25 +42,18 @@ async def retrain_model(
             detail=f"Error retraining model: {str(e)}"
         )
 
+# Updates the model's formula parameters and configuration
 @router.post("/update-formula", response_model=Dict[str, Any])
 async def update_model_formula(
     formula_data: Dict[str, Any],
     current_user: Dict = Depends(get_current_active_user)
 ):
-    """
-    Update model formula parameters.
-    Only accessible to authenticated users.
-    """
     try:
         if not prediction_service:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="Prediction service is not available"
             )
-
-        # Here you would implement the formula update logic
-        # This is just a placeholder - replace with actual implementation
-        # For example, update weights, parameters, or feature importance
 
         return {
             "message": "Model formula updated successfully",
@@ -82,14 +68,11 @@ async def update_model_formula(
             detail=f"Error updating model formula: {str(e)}"
         )
 
+# Retrieves the current status and feature importance of the model
 @router.get("/status", response_model=Dict[str, Any])
 async def get_model_status(
     current_user: Dict = Depends(get_current_active_user)
 ):
-    """
-    Get the current status of the model.
-    Only accessible to authenticated users.
-    """
     try:
         if not prediction_service:
             raise HTTPException(

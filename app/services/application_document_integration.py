@@ -6,26 +6,25 @@ from app.services.document_service import DocumentService
 
 logger = logging.getLogger(__name__)
 
+# Read uploaded file in chunks and return complete contents
 async def read_file_chunks(file: UploadFile) -> bytes:
-    """Read file in chunks and return complete contents"""
     try:
         contents = b""
-        chunk_size = 1024 * 1024  # 1MB chunks
+        chunk_size = 1024 * 1024
         while chunk := await file.read(chunk_size):
             contents += chunk
-        await file.seek(0)  # Reset file pointer
+        await file.seek(0)
         return contents
     except Exception as e:
         logger.error(f"Error reading file {file.filename}: {str(e)}")
         raise HTTPException(status_code=400, detail=f"Could not read file {file.filename}")
 
+# Validate that a file is readable and not empty
 async def validate_file(file: UploadFile) -> bool:
-    """Validate a single file"""
     try:
         if not file.filename:
             raise ValueError("No filename provided")
             
-        # Read a small chunk to verify file is readable
         await file.seek(0)
         chunk = await file.read(1024)
         if not chunk:
@@ -37,37 +36,32 @@ async def validate_file(file: UploadFile) -> bool:
         logger.error(f"File validation error for {file.filename}: {str(e)}")
         return False
 
+# Process and upload application documents with validation and retry logic
 async def handle_application_documents(application_id: str, files: Dict[str, Optional[UploadFile]], user_email: str):
-    # Validate required parameters
     if not application_id:
         raise HTTPException(status_code=400, detail="Application ID is required")
     if not user_email:
         raise HTTPException(status_code=400, detail="User email is required")
 
-    # Initialize services
     document_service = DocumentService()
     
-    # Process and validate files
     valid_files = {}
     total_size = 0
-    max_total_size = 25 * 1024 * 1024  # 25MB total limit
+    max_total_size = 25 * 1024 * 1024
     
     for field, file in files.items():
         if not file:
             continue
             
         try:
-            # Basic validation
             if not await validate_file(file):
                 logger.warning(f"Skipping invalid file for field {field}")
                 continue
                 
-            # Read and validate file contents
             contents = await read_file_chunks(file)
             size = len(contents)
             
-            # Check individual and total size limits
-            if size > 5 * 1024 * 1024:  # 5MB per file
+            if size > 5 * 1024 * 1024:
                 raise HTTPException(
                     status_code=400,
                     detail=f"File {file.filename} exceeds 5MB limit"
@@ -96,10 +90,8 @@ async def handle_application_documents(application_id: str, files: Dict[str, Opt
         logger.info("No valid files to process")
         return None
     
-    # FIXED: This section should NOT be indented under the return statement above
-    # Upload and create documents with retries
     max_retries = 3
-    retry_delay = 1  # seconds
+    retry_delay = 1
     attempt = 0
     
     while True:
@@ -125,7 +117,6 @@ async def handle_application_documents(application_id: str, files: Dict[str, Opt
         except HTTPException as http_exc:
             attempt += 1
             if attempt >= max_retries or http_exc.status_code < 500:
-                # Don't retry client errors or if max retries reached
                 logger.error(f"Document service error: {http_exc.detail}")
                 raise
                 

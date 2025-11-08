@@ -6,9 +6,11 @@ from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Validates that a password meets minimum length requirements
 def is_valid_password(password: str) -> bool:
     return len(password) >= 8
 
+# Hashes a password using bcrypt after validating its length
 def hash_password(password: str) -> str:
     if not is_valid_password(password):
         raise ValueError("Password must be at least 8 characters long")
@@ -18,18 +20,16 @@ def hash_password(password: str) -> str:
     except Exception as e:
         raise ValueError("Failed to hash password") from e
 
+# Verifies a plain password against its hashed version
 def verify_password(password: str, hashed_password: str) -> bool:
     try:
         return pwd_context.verify(password, hashed_password)
     except Exception as e:
-        print(f"Password verification error: {e}")  # For debugging
+        print(f"Password verification error: {e}")
         return False
 
-
+# Creates a JWT access token with configurable expiration time
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """
-    Create a JWT access token with expiration.
-    """
     try:
         to_encode = data.copy()
         expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES))
@@ -39,10 +39,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     except Exception as e:
         raise ValueError("Failed to create access token") from e
 
+# Creates a JWT refresh token with longer expiration time
 def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """
-    Create a JWT refresh token with longer expiration (default 7 days).
-    """
     try:
         to_encode = data.copy()
         expire = datetime.now(timezone.utc) + (expires_delta or timedelta(days=7))
@@ -51,7 +49,8 @@ def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) 
         return encoded_jwt
     except Exception as e:
         raise ValueError("Failed to create refresh token") from e
-    
+
+# Decodes and validates a JWT token returning its payload
 def decode_token(token: str) -> Optional[Dict[str, Any]]:
     try:
         payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
