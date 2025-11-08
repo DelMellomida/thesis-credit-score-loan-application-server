@@ -170,12 +170,9 @@ async def process_loan_application(
                 # Check if upload ultimately failed
                 if document_upload_failed:
                     logger.error(f"Document upload failed for application {loan_application.application_id}: {document_error_message}")
-                    # Delete the loan application since document upload is required
-                    await loan_application.delete()
-                    raise HTTPException(
-                        status_code=500,
-                        detail=f"Document upload failed: {document_error_message}"
-                    )
+                    # Log the error but continue with the application
+                    logger.warning(f"Document upload failed but continuing: {document_error_message}")
+                    document_result = None  # Clear document result in case of failure
                     
             else:
                 logger.warning("No valid documents provided for application")

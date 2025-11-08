@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, status, Depends, Query, UploadFile, File, Form
+from fastapi import APIRouter, HTTPException, Depends, Query, UploadFile, File, Form
+from fastapi import status
 from typing import Dict, Any, List, Optional
 import logging
 import json
@@ -52,14 +53,14 @@ router = APIRouter(prefix="/loans", tags=["Loan Applications"])
 @router.post("/applications", response_model=Dict[str, Any], status_code=status.HTTP_201_CREATED)
 async def create_loan_application(
     request_data: str = Form(...),
-    profilePhoto: UploadFile = File(...),
-    validId: UploadFile = File(...),
-    brgyCert: UploadFile = File(...),
-    eSignaturePersonal: UploadFile = File(...),
-    payslip: UploadFile = File(...),
-    companyId: UploadFile = File(...),
-    proofOfBilling: UploadFile = File(...),
-    eSignatureCoMaker: UploadFile = File(...),
+    profilePhoto: Optional[UploadFile] = File(None),
+    validId: Optional[UploadFile] = File(None),
+    brgyCert: Optional[UploadFile] = File(None),
+    eSignaturePersonal: Optional[UploadFile] = File(None),
+    payslip: Optional[UploadFile] = File(None),
+    companyId: Optional[UploadFile] = File(None),
+    proofOfBilling: Optional[UploadFile] = File(None),
+    eSignatureCoMaker: Optional[UploadFile] = File(None),
     current_user: Dict = Depends(get_current_active_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
 ):
@@ -93,16 +94,24 @@ async def create_loan_application(
                 detail=f"Invalid request data format: {str(e)}"
             )
 
-        document_files = {
-            "profile_photo": profilePhoto,
-            "valid_id": validId,
-            "brgy_cert": brgyCert,
-            "e_signature_personal": eSignaturePersonal,
-            "payslip": payslip,
-            "company_id": companyId,
-            "proof_of_billing": proofOfBilling,
-            "e_signature_comaker": eSignatureCoMaker
-        }
+        # Only include files that were actually uploaded
+        document_files = {}
+        if profilePhoto:
+            document_files["profile_photo"] = profilePhoto
+        if validId:
+            document_files["valid_id"] = validId
+        if brgyCert:
+            document_files["brgy_cert"] = brgyCert
+        if eSignaturePersonal:
+            document_files["e_signature_personal"] = eSignaturePersonal
+        if payslip:
+            document_files["payslip"] = payslip
+        if companyId:
+            document_files["company_id"] = companyId
+        if proofOfBilling:
+            document_files["proof_of_billing"] = proofOfBilling
+        if eSignatureCoMaker:
+            document_files["e_signature_comaker"] = eSignatureCoMaker
         
         return await process_loan_application(
             parsed_request_data,

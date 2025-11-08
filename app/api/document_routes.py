@@ -227,39 +227,60 @@ async def create_or_update_documents(
 @router.get("/application/{application_id}/refresh-urls")
 async def refresh_application_document_urls(
     application_id: str, 
-    document_types: Optional[str] = None,  # Changed to string to handle query param properly
+    document_types: Optional[str] = None,
+    t: Optional[str] = None,  # Timestamp for cache busting
+    nonce: Optional[str] = None,  # Additional cache busting parameter
+    v: Optional[str] = None,  # Version parameter
     current_user: dict = Depends(get_current_active_user)
 ):
     """
-    Refresh signed URLs for an application's documents.
+    Refresh signed URLs for an application's documents with enhanced cache control.
     Optionally specify document types (comma-separated) to refresh only specific URLs.
     """
     from fastapi.responses import JSONResponse
     from fastapi.encoders import jsonable_encoder
+    from datetime import datetime, timedelta
     
     # Parse document_types if provided
     requested_types = document_types.split(',') if document_types else None
     
+    # Generate response timestamp and version
+    timestamp = datetime.utcnow()
+    response_version = v or timestamp.timestamp()
+    
     doc = await service.get_documents_by_application_id(application_id)
     
     if not doc:
-        # Return empty URLs if no document exists
-        return JSONResponse(
-            content={
-                "brgy_cert_url": None,
-                "e_signature_personal_url": None,
-                "payslip_url": None,
-                "company_id_url": None,
-                "proof_of_billing_url": None,
-                "e_signature_comaker_url": None,
-                "profile_photo_url": None,
-                "valid_id_url": None
-            },
-            headers={
-                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
-                "Pragma": "no-cache",
-                "Expires": "0"
+        # Return empty URLs with cache control
+        empty_response = {
+            "brgy_cert_url": None,
+            "e_signature_personal_url": None,
+            "payslip_url": None,
+            "company_id_url": None,
+            "proof_of_billing_url": None,
+            "e_signature_comaker_url": None,
+            "profile_photo_url": None,
+            "valid_id_url": None,
+            "_meta": {
+                "timestamp": timestamp.isoformat(),
+                "version": response_version,
+                "status": "no_documents"
             }
+        }
+        
+        headers = {
+            "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0, private",
+            "Pragma": "no-cache",
+            "Expires": "0",
+            "Last-Modified": timestamp.strftime("%a, %d %b %Y %H:%M:%S GMT"),
+            "ETag": f'W/"{nonce or response_version}"',
+            "X-Response-Time": timestamp.isoformat(),
+            "X-Cache-Status": "MISS"
+        }
+        
+        return JSONResponse(
+            content=jsonable_encoder(empty_response),
+            headers=headers
         )
     
     # Map of document types to field names

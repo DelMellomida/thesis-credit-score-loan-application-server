@@ -262,16 +262,30 @@ class LoanApplicationService:
                 raise RuntimeError(f"Data formatting failed: {str(e)}")
             
             logger.info(f"Successfully formatted {len(formatted_applications)} applications")
-            # Calculate counts from all applications without filters
+            # Calculate counts using aggregation pipeline for better performance
             base_query = {"loan_officer_id": loan_officer_id} if loan_officer_id else {}
-            all_applications = await LoanApplication.find(base_query).to_list()
+            pipeline = [
+                {"$match": base_query},
+                {"$group": {
+                    "_id": "$status",
+                    "count": {"$sum": 1}
+                }}
+            ]
+            
             status_counts = {
-                "total": len(all_applications),
-                "approved": len([a for a in all_applications if a.status == "Approved"]),
-                "denied": len([a for a in all_applications if a.status == "Denied"]),
-                "cancelled": len([a for a in all_applications if a.status == "Cancelled"]),
-                "pending": len([a for a in all_applications if a.status == "Pending"])
+                "total": 0,
+                "approved": 0,
+                "denied": 0,
+                "cancelled": 0,
+                "pending": 0
             }
+            
+            status_result = await LoanApplication.aggregate(pipeline).to_list()
+            for result in status_result:
+                status = result["_id"] or "Pending"  # Default to Pending if status is None
+                count = result["count"]
+                status_counts[status.lower()] = count
+                status_counts["total"] += count
             
             return {
                 "data": formatted_applications,
