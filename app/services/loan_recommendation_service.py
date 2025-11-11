@@ -109,8 +109,14 @@ class LoanRecommendationService:
         applicant_job = getattr(applicant_info, 'job', None)
         if not applicant_job:
             return False
-        
-        return applicant_job in required_jobs
+        # Normalize comparison to be case-insensitive and tolerant of whitespace
+        try:
+            applicant_job_norm = str(applicant_job).strip().lower()
+            required_jobs_norm = [str(j).strip().lower() for j in required_jobs]
+            return applicant_job_norm in required_jobs_norm
+        except Exception:
+            # If anything unexpected occurs, fail-safe to False (not eligible)
+            return False
 
     # Calculate and rank loan recommendations with financial analysis
     def _calculate_recommendations(
@@ -210,10 +216,15 @@ class LoanRecommendationService:
         score += product["max_term_months"] / 12
         
         rules = product["eligibility_rules"]
-        if (rules.get("job") and 
-            hasattr(applicant_info, 'job') and 
-            applicant_info.job in rules["job"]):
-            score += 20
+        # Give a boost if the applicant's job matches the product's job list (case-insensitive)
+        if rules.get("job") and hasattr(applicant_info, 'job'):
+            try:
+                applicant_job_norm = str(applicant_info.job).strip().lower()
+                required_jobs_norm = [str(j).strip().lower() for j in rules.get("job", [])]
+                if applicant_job_norm in required_jobs_norm:
+                    score += 20
+            except Exception:
+                pass
         
         if not rules.get("is_new_client_eligible", True) and is_renewing:
             score += 10

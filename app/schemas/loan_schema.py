@@ -23,11 +23,7 @@ class EmploymentSectorEnum(str, Enum):
     public = "Public"
     private = "Private"
 
-class JobEnum(str, Enum):
-    teacher = "Teacher"
-    security_guard = "Security Guard"
-    seaman = "Seaman"
-    others = "Others"
+# Job is now an open string to allow any position value supplied by the client
 
 class SalaryFrequencyEnum(str, Enum):
     monthly = "Monthly"
@@ -107,7 +103,8 @@ class ApplicantInfo(BaseModel):
     contact_number: str
     address: str
     salary: str
-    job: JobEnum
+    # Accept any job string (free-text) instead of limiting to an enum
+    job: str
 
 class CoMakerInfo(BaseModel):
     """Schema for the co-maker's personal info."""

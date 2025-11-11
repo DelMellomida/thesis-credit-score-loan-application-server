@@ -75,9 +75,7 @@ async def create_loan_application(
                 detail=f"Invalid JSON format: {str(e)}"
             )
             
-        if "applicant_info" in data_dict and "job" in data_dict["applicant_info"]:
-            if data_dict["applicant_info"]["job"] == "Government Employee":
-                data_dict["applicant_info"]["job"] = "Others"
+        # Allow any applicant job string to pass through; do not coerce specific job titles here.
                 
         if "model_input_data" in data_dict and "Paluwagan_Participation" in data_dict["model_input_data"]:
             if data_dict["model_input_data"]["Paluwagan_Participation"] == "Rarel":

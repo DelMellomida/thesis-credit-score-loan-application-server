@@ -13,7 +13,6 @@ from app.schemas.loan_schema import (
     YesNoEnum,
     OtherIncomeSourceEnum,
     DisasterPreparednessEnum,
-    JobEnum,
     CommunityRoleEnum,
     PaluwaganParticipationEnum
 )
@@ -40,7 +39,8 @@ class ApplicantInfo(BaseModel):
     contact_number: str = Field(..., description="Contact number of the applicant")
     address: str = Field(..., description="Address of the applicant")
     salary: str = Field(..., description="Salary of the applicant")
-    job: JobEnum = Field(..., description="Job of the applicant")
+    # Store job as free-text string to allow arbitrary positions
+    job: str = Field(..., description="Job of the applicant")
 
 class CoMakerInfo(BaseModel):
     full_name: str = Field(..., description="Full name of the co-maker")
