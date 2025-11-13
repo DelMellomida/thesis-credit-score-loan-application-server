@@ -18,8 +18,24 @@ async def init_db():
         mongodb_uri = Settings.MONGODB_URI
         mongodb_db_name = Settings.MONGODB_DB_NAME
         
-        logger.info(f"Attempting to connect to MongoDB at: {mongodb_uri}")
-        logger.info(f"Database name: {mongodb_db_name}")
+        # For security, never log full connection URIs which may contain credentials.
+        def _mask_mongo_uri(uri: str) -> str:
+            try:
+                import re
+                # mongodb and mongodb+srv schemes
+                m = re.match(r'(?P<prefix>mongodb(?:\+srv)?://)(?:(?P<creds>[^@]+)@)?(?P<rest>.+)', uri)
+                if not m:
+                    return "mongodb://<redacted>"
+                prefix = m.group('prefix')
+                rest = m.group('rest')
+                # show only host part before first slash
+                host_part = rest.split('/')[0]
+                return f"{prefix}***@{host_part}"
+            except Exception:
+                return "mongodb://<redacted>"
+
+        logger.info(f"Attempting to connect to MongoDB at: {_mask_mongo_uri(mongodb_uri)}")
+        logger.info("Database name: %s", mongodb_db_name)
         
         # Validate that we have the required Settings
         if not mongodb_uri:

@@ -7,9 +7,15 @@ from app.api.auth_routes import router as auth_router
 from app.api.loan_routes import router as loan_router
 from app.api.document_routes import router as document_router
 from app.api.model_routes import router as model_router
+from app.api.reports_routes import router as reports_router
 from contextlib import asynccontextmanager
 from app.database.connection import init_db
 from app.core.config import settings
+from fastapi.exceptions import RequestValidationError
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+import logging
+import traceback
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -84,6 +90,17 @@ class DebugRequestLoggingMiddleware(BaseHTTPMiddleware):
             # Capture incoming headers as a dict for clearer logs
             try:
                 incoming_headers = {k: v for k, v in request.headers.items()}
+                # Redact any sensitive header values before logging
+                sensitive = {"authorization", "cookie", "set-cookie", "x-api-key", "x-supabase-token", "idempotency-key", "supabase-service-role", "jwt-secret-key"}
+                def _redact(hdr_dict):
+                    out = {}
+                    for kk, vv in hdr_dict.items():
+                        if kk.lower() in sensitive:
+                            out[kk] = "<redacted>"
+                        else:
+                            out[kk] = vv
+                    return out
+                incoming_headers = _redact(incoming_headers)
             except Exception:
                 incoming_headers = {str(k): str(v) for k, v in request.scope.get("headers", [])}
 
@@ -95,6 +112,8 @@ class DebugRequestLoggingMiddleware(BaseHTTPMiddleware):
         if should_log:
             try:
                 resp_headers = dict(response.headers)
+                # redact response headers that may contain sensitive tokens
+                resp_headers = {k: ("<redacted>" if k.lower() in ("set-cookie", "authorization") else v) for k, v in resp_headers.items()}
             except Exception:
                 resp_headers = {}
             logger.warning(f"[DEBUG] Response for OPTIONS {request.url.path}: status={response.status_code} headers={resp_headers}")
@@ -111,8 +130,56 @@ app = FastAPI(
     title="Credit Scoring and Loan Recommendation",
     description="Credit Scoring and Loan Recommendation",
     version="1.0.0",
-    lifespan=lifespan  # Add this line to use the lifespan context manager
+    lifespan=lifespan 
 )
+
+
+# Global exception handlers to return structured JSON and log tracebacks
+logger = logging.getLogger("server_exception_handler")
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    # Return structured error payload for known HTTP exceptions
+    body = {
+        "error": {
+            "code": getattr(exc, 'detail', 'http_error'),
+            "message": str(exc.detail) if exc.detail else exc.status_code,
+            "status_code": exc.status_code
+        }
+    }
+    logger.warning(f"HTTPException handled: {exc.detail}")
+    return JSONResponse(status_code=exc.status_code, content=body)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # Validation errors from FastAPI/Pydantic
+    body = {
+        "error": {
+            "code": "validation_error",
+            "message": "Request validation failed",
+            "details": exc.errors()
+        }
+    }
+    logger.warning(f"Validation error: {exc.errors()}")
+    return JSONResponse(status_code=422, content=body)
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    # Catch-all for unexpected exceptions. Log traceback and return a generic
+    # structured error so clients receive consistent JSON.
+    tb = traceback.format_exc()
+    logger.error(f"Unhandled exception: {str(exc)}\n{tb}")
+    body = {
+        "error": {
+            "code": "internal_server_error",
+            "message": "An unexpected error occurred",
+            "details": str(exc)
+        }
+    }
+    return JSONResponse(status_code=500, content=body)
 
 # CRITICAL: Add CORS middleware FIRST (middlewares execute in reverse order, so this runs LAST which is correct)
 # Support comma-separated CLIENT_URL values (e.g. "http://localhost:3000,http://localhost:3001")
@@ -167,6 +234,8 @@ app.add_middleware(
         "If-None-Match",
         "Pragma",
         "Surrogate-Control",
+        # Idempotency header used by the client to safely retry uploads
+        "Idempotency-Key",
     ],
     expose_headers=["Content-Type", "Authorization"],  # Headers that frontend can access
     max_age=3600,  # Cache CORS preflight for 1 hour
@@ -183,6 +252,7 @@ app.include_router(auth_router)
 app.include_router(loan_router)
 app.include_router(document_router)
 app.include_router(model_router)
+app.include_router(reports_router)
 
 @app.get("/")
 async def root():

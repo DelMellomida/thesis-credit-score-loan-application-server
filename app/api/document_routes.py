@@ -1,12 +1,15 @@
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status, Header
 from typing import Optional, List
 from datetime import datetime
 from app.services.document_service import DocumentService
+from app.core.idempotency import get_idempotency_store
+import json
 from app.schemas.document_schema import DocumentUploadRequest, DocumentResponse
 from app.core.auth_dependencies import get_current_active_user
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 service = DocumentService()
+_idempotency = get_idempotency_store()
 
 # Creates document records with uploaded files for an application
 @router.post("/", response_model=DocumentResponse)
@@ -20,7 +23,8 @@ async def create_documents(
     companyId: Optional[UploadFile] = File(None),
     proofOfBilling: Optional[UploadFile] = File(None),
     eSignatureCoMaker: Optional[UploadFile] = File(None),
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_active_user),
+    idempotency_key: Optional[str] = Header(None, alias="Idempotency-Key")
 ):
     files = {
         "profile_photo": profilePhoto,
@@ -33,7 +37,26 @@ async def create_documents(
         "e_signature_comaker": eSignatureCoMaker,
     }
     files = {k: v for k, v in files.items() if v}
+
+    # If client supplied an idempotency key, check store for previous result
+    if idempotency_key:
+        try:
+            prev = await _idempotency.get(idempotency_key)
+            if prev:
+                return prev
+        except Exception:
+            # best-effort: if idempotency store fails, continue processing
+            pass
+
     doc = await service.create_documents(application_id, files, current_user["email"])
+
+    # Persist response under idempotency key for future dedupe (best-effort)
+    if idempotency_key:
+        try:
+            await _idempotency.set(idempotency_key, doc, ttl_seconds=24 * 3600)
+        except Exception:
+            pass
+
     return doc
 
 # Retrieves a document record by its ID
@@ -121,7 +144,8 @@ async def create_or_update_documents(
     companyId: Optional[UploadFile] = File(None),
     proofOfBilling: Optional[UploadFile] = File(None),
     eSignatureCoMaker: Optional[UploadFile] = File(None),
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_active_user),
+    idempotency_key: Optional[str] = Header(None, alias="Idempotency-Key")
 ):
     files = {
         "profile_photo": profilePhoto,
@@ -134,9 +158,24 @@ async def create_or_update_documents(
         "e_signature_comaker": eSignatureCoMaker,
     }
     files = {k: v for k, v in files.items() if v}
-    
+
+    # Check idempotency store first
+    if idempotency_key:
+        try:
+            prev = await _idempotency.get(idempotency_key)
+            if prev:
+                return prev
+        except Exception:
+            pass
+
     doc = await service.update_or_create_documents(application_id, files, current_user["email"])
-    
+
+    if idempotency_key:
+        try:
+            await _idempotency.set(idempotency_key, doc, ttl_seconds=24 * 3600)
+        except Exception:
+            pass
+
     return doc
 
 # Refreshes signed URLs for specific or all documents with enhanced cache control

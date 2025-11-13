@@ -24,7 +24,31 @@ settings = Settings()
 
 # Debug: Print the loaded JWT_SECRET_KEY (masked for safety)
 if settings.JWT_SECRET_KEY:
-    print(f"DEBUG: Loaded Supabase URL and Keys {settings.SUPABASE_URL=}, {settings.SUPABASE_SERVICE_ROLE=}, {settings.SUPABASE_ANON_PUBLIC=}")
-    print(f"DEBUG: Loaded JWT_SECRET_KEY: {settings.JWT_SECRET_KEY[:4]}...{'*' * (len(settings.JWT_SECRET_KEY)-8)}...{settings.JWT_SECRET_KEY[-4:]}")
+    def _mask_secret(val: str) -> str:
+        if not val:
+            return "<missing>"
+        if len(val) <= 8:
+            return "*" * len(val)
+        return f"{val[:4]}...{val[-4:]}"
+
+    def _mask_url(url: str) -> str:
+        # Keep scheme and host, but strip credentials and path for safety
+        try:
+            from urllib.parse import urlparse, urlunparse
+            p = urlparse(url)
+            netloc = p.hostname or ""
+            if p.port:
+                netloc = f"{netloc}:{p.port}"
+            return f"{p.scheme}://{netloc}"
+        except Exception:
+            return _mask_secret(url)
+
+    print("DEBUG: Loaded Supabase settings (redacted):",
+          {
+              "SUPABASE_URL": _mask_url(settings.SUPABASE_URL) if settings.SUPABASE_URL else None,
+              "SUPABASE_SERVICE_ROLE": _mask_secret(settings.SUPABASE_SERVICE_ROLE),
+              "SUPABASE_ANON_PUBLIC": _mask_secret(settings.SUPABASE_ANON_PUBLIC),
+          })
+    print(f"DEBUG: Loaded JWT_SECRET_KEY: {_mask_secret(settings.JWT_SECRET_KEY)}")
 else:
     print("DEBUG: JWT_SECRET_KEY is missing or empty!")

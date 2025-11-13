@@ -4,6 +4,7 @@ from app.schemas import UserCreate
 from app.core import hash_password, verify_password, create_access_token, is_valid_password
 from typing import Dict, Optional
 from datetime import datetime
+import logging
 
 class AuthService:
     # Register a new user with email and password validation
@@ -25,9 +26,9 @@ class AuthService:
         
         try:
             hashed_password = hash_password(user_data.password)
-            print(f"DEBUG: Hashed password created: {hashed_password[:20]}...")
+            logging.getLogger(__name__).debug("Hashed password created (redacted): %s...", hashed_password[:12])
         except ValueError as e:
-            print(f"DEBUG: Password hashing failed: {e}")
+            logging.getLogger(__name__).warning("Password hashing failed")
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Invalid password format"
@@ -42,9 +43,9 @@ class AuthService:
         
         try:
             await new_user.insert()
-            print(f"DEBUG: User saved with ID: {new_user.id}")
+            logging.getLogger(__name__).debug("User saved with ID: %s", new_user.id)
         except Exception as e:
-            print(f"DEBUG: User save failed: {e}")
+            logging.getLogger(__name__).error("User save failed: %s", e)
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="User registration failed"
@@ -60,23 +61,24 @@ class AuthService:
     # Authenticate user and generate access token
     @staticmethod
     async def login_user(form_data) -> Dict:
-        print(f"DEBUG: Login attempt for email: {form_data.email}")
+        logging.getLogger(__name__).debug("Login attempt for email: %s", form_data.email)
         
         user = await User.find_one(User.email == form_data.email)
         
         if not user:
-            print(f"DEBUG: User not found for email: {form_data.email}")
+            logging.getLogger(__name__).warning("User not found for email: %s", form_data.email)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid email or password"
             )
-        
-        print(f"DEBUG: User found: {user.email}")
-        print(f"DEBUG: Stored hash: {user.hashed_password[:20]}...")
-        print(f"DEBUG: Input password: {form_data.password}")
-        
+        logging.getLogger(__name__).debug("User found: %s", user.email)
+        # Log a short prefix of the stored hash for correlation only; do NOT log full hash or plaintext password
+        logging.getLogger(__name__).debug("Stored hash (prefix): %s...", (user.hashed_password or '')[:12])
+
+        # Do NOT log the incoming plaintext password
+
         password_valid = verify_password(form_data.password, user.hashed_password)
-        print(f"DEBUG: Password verification result: {password_valid}")
+        logging.getLogger(__name__).debug("Password verification result: %s", password_valid)
         
         if not password_valid:
             raise HTTPException(
@@ -86,9 +88,10 @@ class AuthService:
         
         try:
             access_token = create_access_token(data={"sub": user.email})
-            print(f"DEBUG: Created JWT access token: {access_token}")
+            # Never log the full access token; log that one was created and the subject
+            logging.getLogger(__name__).debug("Created JWT access token for sub: %s", user.email)
         except ValueError as e:
-            print(f"DEBUG: Token creation failed: {e}")
+            logging.getLogger(__name__).error("Token creation failed: %s", e)
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Could not create access token"
