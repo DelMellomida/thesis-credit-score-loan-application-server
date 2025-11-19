@@ -7,6 +7,8 @@ from pydantic import EmailStr
 from app.services.auth_service import auth_service
 from app.schemas import UserCreate, UserResponse, Token
 from app.core.auth_dependencies import get_current_user
+from app.services.audit_service import audit_service
+import logging
 
 router = APIRouter(
     prefix="/auth",
@@ -18,11 +20,25 @@ router = APIRouter(
 async def signup_user(user_data: UserCreate) -> UserResponse:
     try:
         created_user = await auth_service.register_user(user_data)
+        # Audit: successful signup
+        try:
+            await audit_service.create_audit(action="signup", actor=created_user.get("email") or created_user.get("id"), acted=created_user.get("id"), status="successful")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write signup audit log")
         return UserResponse(**created_user)
     except HTTPException:
+        # Audit: failed signup attempt
+        try:
+            await audit_service.create_audit(action="signup", actor=user_data.email if hasattr(user_data, 'email') else None, acted=None, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed signup audit log")
         raise
     except Exception as e:
         print(f"Unexpected error during signup: {str(e)}")
+        try:
+            await audit_service.create_audit(action="signup", actor=user_data.email if hasattr(user_data, 'email') else None, acted=None, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed signup audit log")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during registration"
@@ -60,15 +76,30 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends()) -> Token:
         
         login_data = LoginData(email=form_data.username, password=form_data.password)
         token_data = await auth_service.login_user(login_data)
-        
+
+        # Audit: successful login
+        try:
+            await audit_service.create_audit(action="login", actor=login_data.email, acted=None, status="successful")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write login audit log")
+
         return Token(
             access_token=token_data["access_token"],
             token_type=token_data["token_type"]
         )
     except HTTPException:
+        # Audit: failed login
+        try:
+            await audit_service.create_audit(action="login", actor=form_data.username if hasattr(form_data, 'username') else None, acted=None, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed login audit log")
         raise
     except Exception as e:
         print(f"Unexpected error during login: {str(e)}")
+        try:
+            await audit_service.create_audit(action="login", actor=form_data.username if hasattr(form_data, 'username') else None, acted=None, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed login audit log")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during login"

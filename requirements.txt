@@ -25,6 +25,9 @@ pydantic[email]==2.11.7
 httpx==0.28.1
 aiohttp==3.11.11
 
+# SMS Service - Twilio (free trial: $15 credits)
+# twilio==9.4.0
+
 # Utilities
 requests==2.32.3
 

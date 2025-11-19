@@ -15,6 +15,11 @@ class Settings:
     SUPABASE_URL: str = os.getenv("SUPABASE_URL")
     SUPABASE_SERVICE_ROLE: str = os.getenv("SUPABASE_SERVICE_ROLE")
     SUPABASE_ANON_PUBLIC: str = os.getenv("SUPABASE_ANON_PUBLIC")
+    # TWILIO_ACCOUNT_SID: str = os.getenv("TWILIO_ACCOUNT_SID")
+    # TWILIO_AUTH_TOKEN: str = os.getenv("TWILIO_AUTH_TOKEN")
+    # TWILIO_PHONE_NUMBER: str = os.getenv("TWILIO_PHONE_NUMBER")
+    PHILSMS_API_TOKEN: str = os.getenv("PHILSMS_API_TOKEN")
+    PHILSMS_SENDER_ID: str = os.getenv("PHILSMS_SENDER_ID")
 
     class Config:
         env_file = ".env"

@@ -8,6 +8,7 @@ from app.api.loan_routes import router as loan_router
 from app.api.document_routes import router as document_router
 from app.api.model_routes import router as model_router
 from app.api.reports_routes import router as reports_router
+from app.api.audit_routes import router as audit_router
 from contextlib import asynccontextmanager
 from app.database.connection import init_db
 from app.core.config import settings
@@ -253,6 +254,7 @@ app.include_router(loan_router)
 app.include_router(document_router)
 app.include_router(model_router)
 app.include_router(reports_router)
+app.include_router(audit_router)
 
 @app.get("/")
 async def root():

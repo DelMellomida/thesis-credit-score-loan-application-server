@@ -2,7 +2,7 @@ from app.database.models.loan_application_model import LoanApplication, Predicti
 import logging
 from typing import Optional, List, Dict, Any
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.schemas.loan_schema import FullLoanApplicationRequest, RecommendedProducts
 from app.services.prediction_service import PredictionService, prediction_service
@@ -167,7 +167,10 @@ class LoanApplicationService:
         limit: int = 100, 
         loan_officer_id: Optional[str] = None,
         status: Optional[str] = None,
-        search: Optional[str] = None
+        search: Optional[str] = None,
+        date_filter: Optional[str] = None,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None
     ) -> Dict[str, Any]:
         try:
             logger.info(f"Retrieving loan applications (skip: {skip}, limit: {limit}, officer: {loan_officer_id}, status: {status}, search: {search})")
@@ -187,12 +190,63 @@ class LoanApplicationService:
                     {"applicant_info.job": search_regex},
                     {"model_input_data.Employment_Sector": search_regex}
                 ]
+
+            # Apply date-based filtering (server-side)
+            # Priority: explicit start_date/end_date -> date_filter fallback -> default
+            # Default ordering: newest -> oldest per UX requirement
+            sort_dir = -1  # default: newest -> oldest
+
+            # If caller provided start_date or end_date (YYYY-MM-DD), use that range.
+            if start_date or end_date:
+                timestamp_query: Dict[str, Any] = {}
+                try:
+                    # Interpret provided dates as YYYY-MM-DD in the same timezone as stored timestamps
+                    # (stored timestamps use server-local naive datetimes). Build start=00:00:00 and
+                    # end=23:59:59.999999 of the provided dates and apply directly to the query.
+                    if start_date:
+                        sd = datetime.strptime(start_date, "%Y-%m-%d")
+                        start_dt = datetime(sd.year, sd.month, sd.day, 0, 0, 0, 0)
+                        timestamp_query['$gte'] = start_dt
+                    if end_date:
+                        ed = datetime.strptime(end_date, "%Y-%m-%d")
+                        end_dt = datetime(ed.year, ed.month, ed.day, 23, 59, 59, 999999)
+                        timestamp_query['$lte'] = end_dt
+
+                    if timestamp_query:
+                        query['timestamp'] = timestamp_query
+                        # show newest first when filtering by explicit range
+                        sort_dir = -1
+                except Exception as e:
+                    logger.warning(f"Invalid start_date/end_date provided: {e}")
+                    # ignore invalid date strings and fall back to date_filter/default
+
+            elif date_filter:
+                # date_filter values: 'all' | 'newest' | 'oldest' | 'last7' | 'last30'
+                df = date_filter.lower()
+                if df == 'newest':
+                    sort_dir = -1
+                elif df == 'oldest':
+                    sort_dir = 1
+                elif df == 'all':
+                    # Interpret 'all' as newest-first per UX requirement
+                    sort_dir = -1
+                elif df == 'last7':
+                    cutoff = datetime.utcnow() - timedelta(days=7)
+                    query['timestamp'] = {"$gte": cutoff}
+                    sort_dir = -1
+                elif df == 'last30':
+                    cutoff = datetime.utcnow() - timedelta(days=30)
+                    query['timestamp'] = {"$gte": cutoff}
+                    sort_dir = -1
+                else:
+                    # Unknown value: leave default ordering (newest-first)
+                    sort_dir = -1
             
             try:
                 total = await LoanApplication.find(query).count()
                 logger.info(f"Total count: {total}")
                 
-                applications = await LoanApplication.find(query).sort([("timestamp", -1)]).skip(skip).limit(limit).to_list()
+                applications = await LoanApplication.find(query).sort([("timestamp", sort_dir)]).skip(skip).limit(limit).to_list()
                 logger.info(f"Retrieved {len(applications)} applications")
                 
             except Exception as e:
@@ -242,9 +296,10 @@ class LoanApplicationService:
                 raise RuntimeError(f"Data formatting failed: {str(e)}")
             
             logger.info(f"Successfully formatted {len(formatted_applications)} applications")
-            base_query = {"loan_officer_id": loan_officer_id} if loan_officer_id else {}
+            # Build counts pipeline using the same filters applied above so counts reflect filtering
+            counts_query = dict(query) if isinstance(query, dict) else {}
             pipeline = [
-                {"$match": base_query},
+                {"$match": counts_query},
                 {"$group": {
                     "_id": "$status",
                     "count": {"$sum": 1}

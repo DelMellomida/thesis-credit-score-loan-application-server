@@ -5,6 +5,7 @@ import logging
 import json
 from uuid import UUID
 from app.services.loan_service import LoanApplicationService, loan_application_service
+from app.services.notification_service import notification_service
 from app.schemas.loan_schema import (
     FullLoanApplicationRequest,
     AIExplanation,
@@ -34,6 +35,8 @@ from app.core.auth_dependencies import get_current_user, get_current_active_user
 
 from app.workers.loan_application_worker import process_loan_application
 from app.schemas.document_schema import DocumentUploadRequest
+from app.services.audit_service import audit_service
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -108,13 +111,26 @@ async def create_loan_application(
         if eSignatureCoMaker:
             document_files["e_signature_comaker"] = eSignatureCoMaker
         
-        return await process_loan_application(
+        result = await process_loan_application(
             parsed_request_data,
             document_files,
             current_user,
             service
         )
+        # Audit: successful application creation
+        try:
+            app_id = result.get("application_id") if isinstance(result, dict) else None
+            await audit_service.create_audit(action="create_application", actor=current_user.get("email"), acted=app_id, status="successful")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write create_application audit log")
+
+        return result
     except HTTPException:
+        # Audit: failed application creation
+        try:
+            await audit_service.create_audit(action="create_application", actor=current_user.get("email") if current_user else None, acted=None, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed create_application audit log")
         raise
     except Exception as e:
         logger.error("Error in loan application creation")
@@ -383,6 +399,9 @@ async def get_loan_applications(
     loan_officer_id: Optional[str] = Query(default=None, description="Filter by loan officer ID"),
     status: Optional[str] = Query(default=None, description="Filter by application status"),
     search: Optional[str] = Query(default=None, description="Search in applicant name, email, or loan details"),
+    date_filter: Optional[str] = Query(default=None, description="Date filter: all|newest|oldest|last7|last30"),
+    start_date: Optional[str] = Query(default=None, description="Start date (YYYY-MM-DD) to filter applications"),
+    end_date: Optional[str] = Query(default=None, description="End date (YYYY-MM-DD) to filter applications"),
     include_ai_explanation: bool = Query(default=False, description="Include AI explanations in response"),
     current_user: Dict = Depends(get_current_user),
     service: LoanApplicationService = Depends(get_loan_application_service)
@@ -402,7 +421,10 @@ async def get_loan_applications(
             limit=limit,
             loan_officer_id=loan_officer_id,
             status=status,
-            search=search
+            search=search,
+            date_filter=date_filter,
+            start_date=start_date,
+            end_date=end_date
         )
         logger.info("Application data retrieved successfully")
         return result
@@ -498,13 +520,55 @@ async def update_application_status(
             application_id=application_id,
             new_status=new_status
         )
-        
+
         if not updated_application:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Loan application with ID {application_id} not found"
             )
-        
+
+        # Audit: successful status update
+        try:
+            # Use more specific action names for approvals and denials
+            if new_status == "Approved":
+                audit_action = "approve_application"
+            elif new_status == "Denied":
+                audit_action = "deny_application"
+            else:
+                audit_action = "update_application_status"
+            
+            await audit_service.create_audit(action=audit_action, actor=current_user.get("email"), acted=application_id, status="successful")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write status update audit log")
+
+        # Send SMS notification for approvals and denials
+        try:
+            applicant_phone = updated_application.applicant_info.contact_number if updated_application.applicant_info else None
+            applicant_name = updated_application.applicant_info.full_name if updated_application.applicant_info else "Applicant"
+            
+            if applicant_phone and (new_status == "Approved" or new_status == "Denied"):
+                if new_status == "Approved":
+                    # Get loan amount for approval message
+                    loan_amount = getattr(updated_application, "recommended_loan_amount", "N/A")
+                    if updated_application.prediction_result and updated_application.prediction_result.loan_recommendation:
+                        # Get the max loanable amount from the first recommended product
+                        loan_amount = updated_application.prediction_result.loan_recommendation[0].max_loanable_amount
+                    await notification_service.send_loan_approval_sms(
+                        phone_number=applicant_phone,
+                        applicant_name=applicant_name,
+                        loan_amount=str(loan_amount)
+                    )
+                    logger.info(f"Approval SMS sent to {applicant_phone[:5]}...*** for application {application_id}")
+                elif new_status == "Denied":
+                    await notification_service.send_loan_denial_sms(
+                        phone_number=applicant_phone,
+                        applicant_name=applicant_name
+                    )
+                    logger.info(f"Denial SMS sent to {applicant_phone[:5]}...*** for application {application_id}")
+        except Exception as e:
+            logger.warning(f"Failed to send SMS notification for application {application_id}: {str(e)}")
+            # Don't fail the entire request if SMS sending fails - log but continue
+
         return {
             "message": "Application status updated successfully",
             "application_id": str(application_id),
@@ -513,8 +577,19 @@ async def update_application_status(
         }
     
     except HTTPException:
+        # Audit: failed status update (client error)
+        try:
+            await audit_service.create_audit(action="update_application_status", actor=current_user.get("email") if current_user else None, acted=application_id, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed status update audit log")
         raise
     except Exception as e:
+        # Audit: failed status update (server error)
+        try:
+            await audit_service.create_audit(action="update_application_status", actor=current_user.get("email") if current_user else None, acted=application_id, status="failed")
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to write failed status update audit log")
+
         logger.error("Error updating application status")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

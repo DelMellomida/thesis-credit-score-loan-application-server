@@ -11,6 +11,8 @@ services:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - CLIENT_URL=http://localhost:3000,http://localhost:3001
+      - PHILSMS_API_TOKEN=${PHILSMS_API_TOKEN}
+      - PHILSMS_SENDER_ID=${PHILSMS_SENDER_ID}
     image: credit_score_server:latest
     container_name: credit_score_server-container
     # Mounting logs directory 
