@@ -296,8 +296,20 @@ class LoanApplicationService:
                 raise RuntimeError(f"Data formatting failed: {str(e)}")
             
             logger.info(f"Successfully formatted {len(formatted_applications)} applications")
-            # Build counts pipeline using the same filters applied above so counts reflect filtering
-            counts_query = dict(query) if isinstance(query, dict) else {}
+            # Build counts pipeline - exclude status filter to show persistent global counts
+            # Keep loan_officer_id and date filters to show stats relevant to the current view
+            counts_query = {}
+            if loan_officer_id:
+                counts_query["loan_officer_id"] = loan_officer_id
+            
+            # Include date filters in counts if present
+            if "timestamp" in query:
+                counts_query["timestamp"] = query["timestamp"]
+            
+            # Include search filters in counts if present
+            if "$or" in query:
+                counts_query["$or"] = query["$or"]
+            
             pipeline = [
                 {"$match": counts_query},
                 {"$group": {
